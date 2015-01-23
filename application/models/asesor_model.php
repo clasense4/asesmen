@@ -11,7 +11,17 @@ class asesor_model extends CI_Model {
 	
 	// Inisialisasi namaasesor tabel yang digunakan
 	var $table = 'asesor';
-	
+
+	/**
+	 * Helper Class
+	 */
+	function printr($array)
+	{
+		echo "<pre>";
+		print_r($array);
+		echo "</pre>";
+	}
+
 	/**
 	 * Mendapatkan semua data asesor, diurutkan berdasarkan id_asesor
 	 */
@@ -54,10 +64,20 @@ class asesor_model extends CI_Model {
 	/**
 	 * Update data asesor
 	 */
-	function update($id_asesor, $namaasesor, $pendidikan, $emailasesor, $telpasesor, $alamatasesor)
+	function update($id_asesor, $asesor)
 	{
-		$this->db->where('id_asesor', $id_asesor);
-		$this->db->update($this->table, $asesor);
+		// $this->printr($id_asesor);
+		// $this->printr($asesor);
+		// die;
+        // $this->title   = $_POST['title'];
+        // $this->content = $_POST['content'];
+        // $this->date    = time();
+
+        // $this->db->update('entries', $this, array('id' => $_POST['id']));
+
+		// $this->db->where('id_asesor', $id_asesor);
+        // $this->namaasesor = $namaasesor;
+		$this->db->update($this->table, $asesor, array('id_asesor' => $id_asesor));
 	}
 	
 	/**
