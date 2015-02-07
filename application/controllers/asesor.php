@@ -16,16 +16,6 @@ class asesor extends CI_Controller {
 	var $title = 'asesor';
 
 	/**
-	 * Helper Class
-	 */
-	function printr($array)
-	{
-		echo "<pre>";
-		print_r($array);
-		echo "</pre>";
-	}
-
-	/**
 	 * Memeriksa user state, jika dalam keadaan login akan menampilkan halaman asesor,
 	 * jika tidak akan meredirect ke halaman login
 	 */

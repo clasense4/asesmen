@@ -1,1 +1,1 @@
-Copyright &copy;2015 Fizah Muharrani<br />
+Copyright &copy;2015 <br />

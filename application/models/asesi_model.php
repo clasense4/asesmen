@@ -16,10 +16,16 @@ class asesi_model extends CI_Model {
 	 */
 	function get_asesi()
 	{
-		$this->db->order_by('nomor');
+		$this->db->order_by('id_asesi');
 		return $this->db->get('asesi');
 	}
 	
+	function get_all_asesi()
+	{
+		$this->db->select('*');
+		$this->db->from('assign_asesi');
+	}
+
 	function get_all($limit, $offset)
 	{
 		$this->db->select('asesi.nomor, asesi.nama, asesi.jabatan,asesi.unit, kegiatan.nama');
