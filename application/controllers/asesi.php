@@ -241,7 +241,6 @@ class asesi extends CI_Controller {
 		// $asesi = $this->asesi_model->get_asesi_by_id($asesi);
 		$asesi = $this->model_asesi->search('id_asesi',$id_asesi,'asesi');
 		$asesi = $asesi[0];
-
 		// buat session untuk menyimpan data primary key (nomor)
 		// $this->session->set_userdata('nomor', $asesi->nomor);
 
@@ -292,7 +291,7 @@ class asesi extends CI_Controller {
 		$kegiatan = $this->kegiatan_model->get_kegiatan()->result();
 		foreach($kegiatan as $row)
 		{
-			$data['options_kegiatan'][$row->id_kegiatan] = $row->kegiatan;
+			$data['options_kegiatan'][$row->id_kegiatan] = $row->id_kegiatan;
 		}
 
 		// Set validation rules
@@ -306,7 +305,7 @@ class asesi extends CI_Controller {
 		if ($this->form_validation->run() == TRUE)
 		{
 			// save data
-			$absen = array('nomor' 		=> $this->input->post('nomor'),
+			$asesi = array('nomor' 		=> $this->input->post('nomor'),
 							'nama'		=> $this->input->post('nama'),
 							'jabatan'	=> $this->input->post('jabatan'),
 							'unit'	=> $this->input->post('unit'),

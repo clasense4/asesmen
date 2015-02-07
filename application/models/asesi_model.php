@@ -28,7 +28,7 @@ class asesi_model extends CI_Model {
 
 	function get_all($limit, $offset)
 	{
-		$this->db->select('asesi.nomor, asesi.nama, asesi.jabatan,asesi.unit, kegiatan.nama');
+		$this->db->select('asesi.nomor, asesi.nama as namaasesi, asesi.jabatan,asesi.unit, kegiatan.nama');
 		$this->db->from($this->table);
 		$this->db->join('kegiatan', 'kegiatan.id_kegiatan = asesi.id_kegiatan');
 		$this->db->limit($limit, $offset);
