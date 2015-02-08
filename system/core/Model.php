@@ -50,6 +50,16 @@ class CI_Model {
 		$CI =& get_instance();
 		return $CI->$key;
 	}
+
+	/**
+	 * Helper Class
+	 */
+	function printr($array)
+	{
+		echo "<pre>";
+		print_r($array);
+		echo "</pre>";
+	}
 }
 // END Model Class
 

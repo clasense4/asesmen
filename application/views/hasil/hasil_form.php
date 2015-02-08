@@ -118,7 +118,7 @@
 	<?php echo form_error('id_asesor', '<p class="field_error">', '</p>');?>
 
 	<p>
-		<input type="submit" name="submit" id="submit" value=" Simpan " />
+		<input type="submit" name="submit" id="submit" value=" Simpan " /> * 
 	</p>
 </form>
 

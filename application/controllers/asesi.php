@@ -230,7 +230,6 @@ class asesi extends CI_Controller {
 		// $asesi = $this->asesi_model->get_asesi_by_id($asesi);
 		$asesi = $this->model_asesi->search('id_asesi',$id_asesi,'asesi');
 		$asesi = $asesi[0];
-
 		// buat session untuk menyimpan data primary key (nomor)
 		// $this->session->set_userdata('nomor', $asesi->nomor);
 
@@ -278,6 +277,7 @@ class asesi extends CI_Controller {
 		// die;
 
 		// data kegiatan untuk dropdown menu
+
 		// $kegiatan = $this->kegiatan_model->get_kegiatan()->result();
 		// foreach($kegiatan as $row)
 		// {
