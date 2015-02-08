@@ -13,16 +13,6 @@ class asesor_model extends CI_Model {
 	var $table = 'asesor';
 
 	/**
-	 * Helper Class
-	 */
-	function printr($array)
-	{
-		echo "<pre>";
-		print_r($array);
-		echo "</pre>";
-	}
-
-	/**
 	 * Mendapatkan semua data asesor, diurutkan berdasarkan id_asesor
 	 */
 	function get_asesor()

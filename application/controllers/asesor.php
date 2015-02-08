@@ -7,9 +7,11 @@ class asesor extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('model_asesor', '', TRUE);
+		$this->load->model('helper_model', '', TRUE);
 		$this->load->model('asesor_model', '', TRUE);
 	}
-	
+
 	/**
 	 * Inisialisasi variabel untuk $title(untuk id element <body>)
 	 */
@@ -30,7 +32,7 @@ class asesor extends CI_Controller {
 			redirect('login');
 		}
 	}
-	
+
 	/**
 	 * Tampilkan semua data asesor
 	 */
@@ -39,12 +41,16 @@ class asesor extends CI_Controller {
 		$data['title'] = $this->title;
 		$data['h2_title'] = 'Data Asesor';
 		$data['main_view'] = 'asesor/asesor';
-		
+
 		// Load data
-		$query = $this->asesor_model->get_all();
-		$asesor = $query->result();
-		$num_rows = $query->num_rows();
-		
+		// $query = $this->asesor_model->get_all();
+		// $asesor = $query->result();
+		// $num_rows = $query->num_rows();
+		$asesor = $this->model_asesor->search(NULL,NULL,'asesor');
+		// $num_rows = $this->asesor_model->count_all();
+		$num_rows = $this->model_asesor->count(NULL,NULL,'asesor');
+		// $this->helper_model->printr($asesor);die;
+
 		if ($num_rows > 0)
 		{
 			// Table
@@ -57,12 +63,21 @@ class asesor extends CI_Controller {
 
 			/*Set table heading */
 			$this->table->set_empty("&nbsp;");
-			$this->table->set_heading('No', 'Id Asesor', 'Nama Asesor', 'Penidikan', 'Email', 'No. Telepon', 'Alamat', 'Actions');
+			// $this->table->set_heading('No', 'Id Asesor', 'Nama Asesor', 'Penidikan', 'Email', 'No. Telepon', 'Alamat', 'Actions');
+			$fields = array();
+			array_push($fields, 'No');
+			$table_fields = $this->db->list_fields('asesor');
+			foreach ($table_fields as $key => $value) {
+				array_push($fields,$value);
+			}
+			// array_push($fields, $this->db->list_fields('asesi'));
+			array_push($fields, 'actions');
+			$this->table->set_heading($fields);
 			$i = 0;
-			
+
 			foreach ($asesor as $row)
 			{
-				$this->table->add_row(++$i, $row->id_asesor, $row->namaasesor, $row->pendidikan, $row ->emailasesor, $row->telpasesor, $row->alamatasesor,
+				$this->table->add_row(++$i, $row->id_asesor,$row->nama,$row->pendidikan,$row->email,$row->no_telp,$row->alamat,
 										anchor('asesor/update/'.$row->id_asesor,'update',array('class' => 'update')).' '.
 										anchor('asesor/delete/'.$row->id_asesor,'hapus',array('class'=> 'delete','onclick'=>"return confirm('Anda yakin akan menghapus data ini?')"))
 										);
@@ -72,41 +87,40 @@ class asesor extends CI_Controller {
 		else
 		{
 			$data['message'] = 'Tidak ditemukan satupun data asesor!';
-		}		
-		
+		}
+
 		$data['link'] = array('link_add' => anchor('asesor/add/','tambah data', array('class' => 'add'))
 								);
-		
+
 		// Load view
 		$this->load->view('template_kegiatan', $data);
 	}
-		
+
 	/**
 	 * Hapus data asesor
 	 */
 	function delete($id_asesor)
 	{
-		$this->asesor_model->delete($id_asesor);
+		$this->model_asesor->delete('id_asesor',$id_asesor,'asesor');
 		$this->session->set_flashdata('message', '1 data asesor berhasil dihapus');
-		
 		redirect('asesor');
 	}
-	
+
 	/**
 	 * Pindah ke halaman tambah asesor
 	 */
 	function add()
-	{		
+	{
 		$data['title'] 			= $this->title;
 		$data['h2_title'] 		= 'Data Asesor > Tambah Data';
 		$data['main_view'] 		= 'asesor/asesor_form';
 		$data['form_action']		= site_url('asesor/add_process');
 		$data['link'] 			= array('link_back' => anchor('asesor','kembali', array('class' => 'back'))
 										);
-		
+
 		$this->load->view('template', $data);
 	}
-	
+
 	/**
 	 * Proses tambah data asesor
 	 */
@@ -118,38 +132,46 @@ class asesor extends CI_Controller {
 		$data['form_action']		= site_url('asesor/add_process');
 		$data['link'] 			= array('link_back' => anchor('asesor','kembali', array('class' => 'back'))
 										);
-	
-		// Set validation rules
-		$this->form_validation->set_rules('id_asesor', 'Id asesor', 'required|numeric|max_length[2]|callback_valid_id');
-		$this->form_validation->set_rules('namaasesor', 'namaasesor asesor', 'required|max_length[50]');
-		$this->form_validation->set_rules('pendidikan', 'pendidikan', 'required|max_length[50]');
-		$this->form_validation->set_rules('emailasesor', 'emailasesor', 'required|max_length[50]');
-		$this->form_validation->set_rules('telpasesor', 'Telp. Asesor', 'required|max_length[50]');
-		$this->form_validation->set_rules('alamatasesor', 'Alamat Asesor', 'required|max_length[50]');
-		// Jika validasi sukses
-		if ($this->form_validation->run() == TRUE)
-		{
-			// Persiapan data
-			$asesor = array('id_asesor'	=> $this->input->post('id_asesor'),
-							'namaasesor'		=> $this->input->post('namaasesor'),
-							'pendidikan'		=> $this->input->post('pendidikan'),
-							'emailasesor'		=> $this->input->post('emailasesor'),
-							'telpasesor'		=> $this->input->post('telpasesor'),
-							'alamatasesor'		=> $this->input->post('alamatasesor')
-						);
-			// Proses penyimpanan data di table asesor
-			$this->asesor_model->add($asesor);
-			
-			$this->session->set_flashdata('message', 'Satu data asesor berhasil disimpan!');
-			redirect('asesor/add');
-		}
-		// Jika validasi gagal
-		else
-		{		
-			$this->load->view('template', $data);
-		}		
+		$asesor = $this->input->post();
+		unset($asesor['submit']);
+		unset($asesor['id_asesor']);
+		$this->helper_model->printr($asesor);
+		$this->asesor_model->add($asesor);
+		$this->session->set_flashdata('message', 'Satu data asesor berhasil disimpan!');
+		redirect('asesor');
+		die;
+
+		// // Set validation rules
+		// $this->form_validation->set_rules('id_asesor', 'Id asesor', 'required|numeric|max_length[2]|callback_valid_id');
+		// $this->form_validation->set_rules('namaasesor', 'namaasesor asesor', 'required|max_length[50]');
+		// $this->form_validation->set_rules('pendidikan', 'pendidikan', 'required|max_length[50]');
+		// $this->form_validation->set_rules('emailasesor', 'emailasesor', 'required|max_length[50]');
+		// $this->form_validation->set_rules('telpasesor', 'Telp. Asesor', 'required|max_length[50]');
+		// $this->form_validation->set_rules('alamatasesor', 'Alamat Asesor', 'required|max_length[50]');
+		// // Jika validasi sukses
+		// if ($this->form_validation->run() == TRUE)
+		// {
+		// 	// Persiapan data
+		// 	$asesor = array('id_asesor'	=> $this->input->post('id_asesor'),
+		// 					'namaasesor'		=> $this->input->post('namaasesor'),
+		// 					'pendidikan'		=> $this->input->post('pendidikan'),
+		// 					'emailasesor'		=> $this->input->post('emailasesor'),
+		// 					'telpasesor'		=> $this->input->post('telpasesor'),
+		// 					'alamatasesor'		=> $this->input->post('alamatasesor')
+		// 				);
+		// 	// Proses penyimpanan data di table asesor
+		// 	$this->asesor_model->add($asesor);
+
+		// 	$this->session->set_flashdata('message', 'Satu data asesor berhasil disimpan!');
+		// 	redirect('asesor/add');
+		// }
+		// // Jika validasi gagal
+		// else
+		// {
+		// 	$this->load->view('template', $data);
+		// }
 	}
-	
+
 	/**
 	 * Pindah ke halaman update asesor
 	 */
@@ -161,23 +183,22 @@ class asesor extends CI_Controller {
 		$data['form_action']		= site_url('asesor/update_process');
 		$data['link'] 			= array('link_back' => anchor('asesi','kembali', array('class' => 'back'))
 										);
-	
+
 		// cari data dari database
 		$asesor = $this->asesor_model->get_asesor_by_id($id_asesor);
-				
+
 		// buat session untuk menyimpan data primary key (id_asesor)
-		$this->session->set_userdata('id_asesor', $asesor->id_asesor);
-		
-		// Data untuk mengisi field2 form
-		$data['default']['id_asesor'] 	= $asesor->id_asesor;		
-		$data['default']['namaasesor']		= $asesor->namaasesor;
-		$data['default']['pendidikan']		= $asesor->pendidikan;		
-		$data['default']['emailasesor']		= $asesor->emailasesor;
-		$data['default']['telpasesor']		= $asesor->telpasesor;
-		$data['default']['alamatasesor']	= $asesor->alamatasesor;
+		$this->session->set_userdata('asesor', $asesor->id_asesor); 
+
+		$data['default']['id_asesor'] = $asesor->id_asesor;
+		$data['default']['nama'] = $asesor->nama;
+		$data['default']['pendidikan'] = $asesor->pendidikan;
+		$data['default']['email'] = $asesor->email;
+		$data['default']['no_telp'] = $asesor->no_telp;
+		$data['default']['alamat'] = $asesor->alamat;
 		$this->load->view('template', $data);
 	}
-	
+
 	/**
 	 * Proses update data asesor
 	 */
@@ -189,36 +210,44 @@ class asesor extends CI_Controller {
 		$data['form_action']	= site_url('asesor/update_process');
 		$data['link'] 			= array('link_back' => anchor('asesor','kembali', array('class' => 'back'))
 										);
-										
-		// Set validation rules
-		$this->form_validation->set_rules('id_asesor', 'Id asesor', 'required|numeric|max_length[2]|callback_valid_id2');
-		$this->form_validation->set_rules('namaasesor', 'namaasesor asesor', 'required|max_length[50]');
-		$this->form_validation->set_rules('pendidikan', 'pendidikan', 'required|max_length[50]');
-		$this->form_validation->set_rules('emailasesor', 'emailasesor', 'required|max_length[50]');
-		$this->form_validation->set_rules('telpasesor', 'Telp. Asesor', 'required|max_length[50]');
-		$this->form_validation->set_rules('alamatasesor', 'alamatasesor', 'required|max_length[50]');
-		
-		if ($this->form_validation->run() == TRUE)
-		{
-			// save data
-			$asesor = array('id_asesor'	=> $this->input->post('id_asesor'),
-							'namaasesor'		=> $this->input->post('namaasesor'),
-							'pendidikan'		=> $this->input->post('pendidikan'),
-							'emailasesor'		=> $this->input->post('emailasesor'),
-							'telpasesor'		=> $this->input->post('telpasesor'),
-							'alamatasesor'		=> $this->input->post('alamatasesor')
-						);
-			$this->asesor_model->update($this->session->userdata('id_asesor'), $asesor);
-			
-			$this->session->set_flashdata('message', 'Satu data asesor berhasil diupdate!');
-			redirect('asesor');
-		}
-		else
-		{		
-			$this->load->view('template', $data);
-		}
+
+		$asesor = $this->input->post();
+		unset($asesor['submit']);
+		$this->helper_model->printr($asesor);
+		$this->model_asesor->save($asesor,'asesor');
+		$this->session->set_flashdata('message', 'Satu data asesor berhasil diupdate!');
+		redirect('asesor');
+		die;
+
+		// // Set validation rules
+		// $this->form_validation->set_rules('id_asesor', 'Id asesor', 'required|numeric|max_length[2]|callback_valid_id2');
+		// $this->form_validation->set_rules('namaasesor', 'namaasesor asesor', 'required|max_length[50]');
+		// $this->form_validation->set_rules('pendidikan', 'pendidikan', 'required|max_length[50]');
+		// $this->form_validation->set_rules('emailasesor', 'emailasesor', 'required|max_length[50]');
+		// $this->form_validation->set_rules('telpasesor', 'Telp. Asesor', 'required|max_length[50]');
+		// $this->form_validation->set_rules('alamatasesor', 'alamatasesor', 'required|max_length[50]');
+
+		// if ($this->form_validation->run() == TRUE)
+		// {
+		// 	// save data
+		// 	$asesor = array('id_asesor'	=> $this->input->post('id_asesor'),
+		// 					'namaasesor'		=> $this->input->post('namaasesor'),
+		// 					'pendidikan'		=> $this->input->post('pendidikan'),
+		// 					'emailasesor'		=> $this->input->post('emailasesor'),
+		// 					'telpasesor'		=> $this->input->post('telpasesor'),
+		// 					'alamatasesor'		=> $this->input->post('alamatasesor')
+		// 				);
+		// 	$this->asesor_model->update($this->session->userdata('id_asesor'), $asesor);
+
+		// 	$this->session->set_flashdata('message', 'Satu data asesor berhasil diupdate!');
+		// 	redirect('asesor');
+		// }
+		// else
+		// {
+		// 	$this->load->view('template', $data);
+		// }
 	}
-	
+
 	/**
 	 * Cek apakah $id_asesor valid, agar tidak ganda
 	 */
@@ -230,11 +259,11 @@ class asesor extends CI_Controller {
 			return FALSE;
 		}
 		else
-		{			
+		{
 			return TRUE;
 		}
 	}
-	
+
 	/**
 	 * Cek apakah $id_asesor valid, agar tidak ganda. Hanya untuk proses update data asesor
 	 */
@@ -244,7 +273,7 @@ class asesor extends CI_Controller {
 		// tidak mungkin seorang siswa diabsen 2 kali pada emailasesor yang sama
 		$current_id 	= $this->session->userdata('id_asesor');
 		$new_id			= $this->input->post('id_asesor');
-				
+
 		if ($new_id === $current_id)
 		{
 			return TRUE;
