@@ -95,7 +95,7 @@ class Helper extends CI_Controller {
 		"unset(\$".$table."['submit']);"."<br>".
 		"unset(\$".$table."['id_".$table."']);"."<br>".
 		"\$this->helper_model->printr(\$".$table.");"."<br>".
-		"\$this->".$table."_model->add(\$".$table.");"."<br>".
+		"\$this->model_".$table."->save(\$".$table.",'".$table."');"."<br>".
 		"\$this->session->set_flashdata('message', 'Satu data ".$table." berhasil disimpan!');"."<br>".
 		"redirect('".$table."');";
 		echo "<hr>";

@@ -21,6 +21,19 @@
 	<?php echo form_error('proyek_selesai', '<p class="field_error">', '</p>');?>
 	<p><label for="note">note</label><input type="text" class="form_field" name="note" size="30" value="<?php echo set_value('note', isset($default['note']) ? $default['note'] : ''); ?>" /></p>
 	<?php echo form_error('note', '<p class="field_error">', '</p>');?>
+	<hr>
+
+	<ol>
+	<?php foreach ($group_skor as $key => $value) {
+		echo "<li><strong>".$value->nama."</strong></li>";
+		$skor = $this->model_skor->search('id_group_skor',$value->id_group_skor,'skor');
+		foreach ($skor as $key1 => $value1) {
+			// $this->helper_model->printr($value1);
+			echo '<p><label for="skor['.$value1->id_skor.']">'.$value1->nama.'</label><input type="text" class="form_field" name="skor['.$value1->id_skor.']" size="1" value="" /></p><br>';
+		}
+		echo "<hr>";
+	} ?>
+	</ol>
 	<p>
 		<input type="submit" name="submit" id="submit" value=" Simpan " />
 	</p>

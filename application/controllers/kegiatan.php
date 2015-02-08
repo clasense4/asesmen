@@ -9,6 +9,7 @@ class kegiatan extends CI_Controller {
 		parent::__construct();
 		$this->load->model('helper_model', '', TRUE);
 		$this->load->model('model_kegiatan', '', TRUE);
+		$this->load->model('model_skor', '', TRUE);
 		$this->load->model('kegiatan_model', '', TRUE);
 	}
 
@@ -113,7 +114,8 @@ class kegiatan extends CI_Controller {
 		$data['form_action']	= site_url('kegiatan/add_process');
 		$data['link'] 			= array('link_back' => anchor('kegiatan','kembali', array('class' => 'back'))
 										);
-
+		// get group
+		$data['group_skor'] = $this->model_skor->search(NULL,NULL,'group_skor');
 		$this->load->view('template', $data);
 	}
 
@@ -128,11 +130,27 @@ class kegiatan extends CI_Controller {
 		$data['form_action']	= site_url('kegiatan/add_process');
 		$data['link'] 			= array('link_back' => anchor('kegiatan','kembali', array('class' => 'back'))
 										);
+
 		$kegiatan = $this->input->post();
+		$skor = $kegiatan['skor'];
+		unset($kegiatan['skor']);
 		unset($kegiatan['submit']);
 		unset($kegiatan['id_kegiatan']);
-		$this->helper_model->printr($kegiatan);
-		$this->kegiatan_model->add($kegiatan);
+		$kegiatan['id_kegiatan'] = $this->model_kegiatan->save($kegiatan,'kegiatan',1);
+		// $this->helper_model->printr($ids);
+		// die;
+		// $kegiatan['id_kegiatan'] = $this->db->insert_id();
+		foreach ($skor as $key => $value) {
+			// $this->helper_model->printr($value);
+			$var = array(
+					'id_kegiatan' => $kegiatan['id_kegiatan'],
+					'id_skor' => (int)$key
+					);
+			// $this->helper_model->printr($key);
+			$this->model_kegiatan->save($var,'assign_kegiatan_skor');
+		}
+		// die;
+
 		$this->session->set_flashdata('message', 'Satu data kegiatan berhasil disimpan!');
 		redirect('kegiatan');
 

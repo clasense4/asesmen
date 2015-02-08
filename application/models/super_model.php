@@ -13,7 +13,7 @@ class super_model extends CI_Model
         $this->load->database();
     }
 
-	public function save($data,$tablename="")
+	public function save($data,$tablename="",$get_id=0)
 	{
 	    if($tablename=="")
 	    {
@@ -48,7 +48,12 @@ class super_model extends CI_Model
 	        }
 	    }
 	    $this->db->insert($tablename,$data);
-	    return $this->db->affected_rows();
+	    if ($get_id == 1) {
+		    return $this->db->insert_id();
+	    }
+	    else {
+	    	return $this->db->affected_rows();
+	    }
 	}
 
 	function search($conditions=NULL,$value=NULL,$tablename="",$limit=500,$offset=0)
