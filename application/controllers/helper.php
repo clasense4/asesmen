@@ -1,6 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Helper extends CI_Controller {
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->model('helper_model', '', TRUE);
+	}
+
 	public function index()
 	{
 		$tables = $this->db->list_tables();
@@ -9,11 +15,11 @@ class Helper extends CI_Controller {
 		{
 			echo "<h2>Menu $table: </h2>".
 			"<ol>".
-			"<li><a href=\"helper/get_field/$table\" target=\"_blank\">Get Fields from Table (helper/get_field/$table</a></li>".
-			"<li><a href=\"helper/get_field_metadata/$table\" target=\"_blank\">Get Fields Metadata from Table (helper/get_field_metadata/$table</a></li>".
-			"<li><a href=\"helper/print_form_by_column\" target=\"_blank\">Print form by Column from Table (helper/print_form_by_column/{column}</a></li>".
-			"<li><a href=\"helper/print_form_by_table/$table\" target=\"_blank\">Print form from Table (helper/print_form_by_table/$table</a></li>".
-			"<li><a href=\"helper/print_crud_process/$table\" target=\"_blank\">Print CRUD Process from Table (helper/print_crud_process/$table</a></li>".
+			"<li><a href=\"".base_url("index.php/helper/get_field/$table")."\" target=\"_blank\">Get Fields from Table (helper/get_field/$table</a></li>".
+			"<li><a href=\"".base_url("index.php/helper/get_field_metadata/$table")."\" target=\"_blank\">Get Fields Metadata from Table (helper/get_field_metadata/$table</a></li>".
+			"<li><a href=\"".base_url("index.php/helper/print_form_by_column")."\" target=\"_blank\">Print form by Column from Table (helper/print_form_by_column/{column}</a></li>".
+			"<li><a href=\"".base_url("index.php/helper/print_form_by_table/$table")."\" target=\"_blank\">Print form from Table (helper/print_form_by_table/$table</a></li>".
+			"<li><a href=\"".base_url("index.php/helper/print_crud_process/$table")."\" target=\"_blank\">Print CRUD Process from Table (helper/print_crud_process/$table</a></li>".
 			"</ol><hr>";
 		}
 	}
@@ -23,8 +29,14 @@ class Helper extends CI_Controller {
 		$fields = $this->db->list_fields($table);
 		foreach ($fields as $field)
 		{
-		   // echo $this->helper_model->strip_underscore($field). ",";
-		   echo "\$row->".$field. ",";
+		    // echo $this->helper_model->strip_underscore($field). ",";
+		    // 
+			if ($this->input->get('row') === '1') {
+				echo "\$row->".$field. ",";
+			}
+			else {
+				echo $field. "<br>";
+			}
 		}
 	}
 
@@ -68,6 +80,16 @@ class Helper extends CI_Controller {
 
 	function print_crud_process($table)
 	{
+		echo "<h2>Place it in get_all() / index</h2>";
+		echo "\$fields = array();"."<br>".
+		"array_push(\$fields, 'No');"."<br>".
+		"\$table_fields = \$this->db->list_fields('".$table."');"."<br>".
+		"foreach (\$table_fields as \$key => \$value) {"."<br>".
+			"array_push(\$fields,\$value);"."<br>".
+		"}"."<br>".
+		"array_push(\$fields, 'actions');"."<br>".
+		"\$this->table->set_heading(\$fields);";
+
 		echo "<h2>Place it in add_process</h2>";
 		echo "\$".$table." = \$this->input->post();"."<br>".
 		"unset(\$".$table."['submit']);"."<br>".
@@ -79,11 +101,10 @@ class Helper extends CI_Controller {
 		echo "<hr>";
 
 		echo "<h2>Place it in update</h2>";
-		$string ='
-		$this->session->set_userdata(\''.$table.'\', $'.$table.'->id_'.$table.');
-		';
-		echo htmlentities($string);
-		echo "<br>";
+		echo '$'.$table.' = $this->model_'.$table.'->search(\'id_kegiatan\',$id_'.$table.',\''.$table.'\');'."<br>";
+		echo '$'.$table.' = $'.$table.'[0];'."<br>";
+		echo '$this->session->set_userdata(\''.$table.'\', $'.$table.'->id_'.$table.');';
+
 		$columns = $this->db->list_fields($table);
 		foreach ($columns as $key => $column)
 		{
