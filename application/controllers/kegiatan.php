@@ -142,15 +142,18 @@ class kegiatan extends CI_Controller {
 		// $kegiatan['id_kegiatan'] = $this->db->insert_id();
 		foreach ($skor as $key => $value) {
 			// $this->helper_model->printr($value);
-			$var = array(
-					'id_kegiatan' => $kegiatan['id_kegiatan'],
-					'id_skor' => (int)$key
-					);
-			// $this->helper_model->printr($key);
-			$this->model_kegiatan->save($var,'assign_kegiatan_skor');
+			// $id_skor = (!empty($key)) ? $key : $value ;
+			if (!empty($value)) {
+				$id_skor = $key;
+				$var = array(
+						'id_kegiatan' => $kegiatan['id_kegiatan'],
+						'id_skor' => (int)$key
+						);
+				// $this->helper_model->printr($var);
+				$this->model_kegiatan->save($var,'assign_kegiatan_skor');
+			}
 		}
 		// die;
-
 		$this->session->set_flashdata('message', 'Satu data kegiatan berhasil disimpan!');
 		redirect('kegiatan');
 
