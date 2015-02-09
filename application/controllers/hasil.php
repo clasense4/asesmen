@@ -7,20 +7,12 @@ class hasil extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('helper_model', '', TRUE);
+		$this->load->model('model_hasil', '', TRUE);
 		$this->load->model('hasil_model', '', TRUE);
 		$this->load->model('asesi_model', '', TRUE);
 		$this->load->model('asesor_model', '', TRUE);
 		$this->load->model('kegiatan_model', '', TRUE);
-	}
-
-	/**
-	 * Helper Class
-	 */
-	function printr($array)
-	{
-		echo "<pre>";
-		print_r($array);
-		echo "</pre>";
 	}
 
 	/**
@@ -61,8 +53,10 @@ class hasil extends CI_Controller {
 		$offset = $this->uri->segment($uri_segment);
 
 		// Load data
-		$hasil = $this->hasil_model->get_all($this->limit, $offset);
-		$num_rows = $this->hasil_model->count_all();
+		// $hasil = $this->hasil_model->get_all($this->limit, $offset);
+		// $num_rows = $this->hasil_model->count_all();
+		$hasil = $this->model_hasil->search(NULL,NULL,'hasil',$this->limit, $offset);
+		$num_rows = $this->model_hasil->count(NULL,NULL,'hasil');
 
 		if ($num_rows > 0)
 		{
@@ -84,14 +78,22 @@ class hasil extends CI_Controller {
 
 			/*Set table heading */
 			$this->table->set_empty("&nbsp;");
-			$this->table->set_heading('No', 'Id Hasil','Nomor Peserta', 'Potensi', 'Kompetensi Inti', 'Teknis', 'Total', 'Rekomendasi', 'Asesor', 'Action');
+			$fields = array();
+			array_push($fields, 'No');
+			$table_fields = $this->db->list_fields('hasil');
+			foreach ($table_fields as $key => $value) {
+			array_push($fields,$value);
+			}
+			array_push($fields, 'actions');
+			$this->table->set_heading($fields);
+			// $this->table->set_heading('No', 'Id Hasil','Nomor Peserta', 'Potensi', 'Kompetensi Inti', 'Teknis', 'Total', 'Rekomendasi', 'Asesor', 'Action');
 			$i = 0 + $offset;
 
 			foreach ($hasil as $row)
 			{
-				$this->table->add_row(++$i, $row->id_hasil, $row->nomor, $row->potensi, $row->inti, $row->teknis, $row->total, $row->rekomendasi, $row->namaasesor,
+				$this->table->add_row(++$i, $row->id_hasil,$row->nomor,$row->id_kegiatan,$row->id_lead_asesor,
 										// anchor('hasil/view/'.$row->id_hasil,'view',array('class' => 'view')).' '.
-										anchor('hasil/update/'.$row->id_hasil,'detail',array('class' => 'update')).' '.
+										anchor('hasil/update/'.$row->id_hasil,'update',array('class' => 'update')).' '.
 										anchor('hasil/delete/'.$row->id_hasil,'hapus',array('class'=> 'delete','onclick'=>"return confirm('Anda yakin akan menghapus data ini?')"))
 										);
 			}
@@ -133,18 +135,29 @@ class hasil extends CI_Controller {
 										);
 
 		// data kegiatan untuk dropdown menu
+		$kegiatan = $this->kegiatan_model->get_kegiatan()->result();
+		$data['options_kegiatan'][0] = 'Pilih';
+		foreach($kegiatan as $row)
+		{
+			$data['options_kegiatan'][$row->id_kegiatan] = $row->nama;
+		}
+
 		$asesi = $this->asesi_model->get_asesi()->result();
+		$data['options_asesi'][0] = 'Pilih';
 		foreach($asesi as $row)
 		{
-			$data['options_asesi'][$row->nomor] = $row->nama;
+			$data['options_asesi'][$row->id_asesi] = $row->nama;
 		}
 
 		$asesor = $this->asesor_model->get_asesor()->result();
+
+		// array_push($data['options_asesor'][0], 'Pilih');
+		$data['options_asesor'][0] = 'Pilih';
 		foreach($asesor as $row)
 		{
-			$data['options_asesor'][$row->id_asesor] = $row->namaasesor;
+			$data['options_asesor'][$row->id_asesor] = $row->nama;
 		}
-
+		$data['group_skor'] = $this->model_hasil->search(NULL,NULL,'group_skor');
 		$this->load->view('template', $data);
 	}
 	/**

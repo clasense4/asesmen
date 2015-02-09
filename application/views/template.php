@@ -5,6 +5,7 @@
 <link rel="shortcut icon" href="<?php echo base_url().'images/fav_icon.png';?>" />
 <style type="text/css">@import url("<?php echo base_url() . 'css/reset.css'; ?>");</style>
 <style type="text/css">@import url("<?php echo base_url() . 'css/style.css'; ?>");</style>
+<script src="<?php echo base_url() . 'js/jquery-1.11.0.js'; ?>"></script>
 
 <title><?php echo isset($title) ? $title : ''; ?></title>
 </head>
@@ -26,6 +27,8 @@
 <div id="footer">
 	<?php $this->load->view('footer'); ?>
 </div>
+
+<!-- jQuery Version 1.11.0 -->
 
 </body>
 </html>

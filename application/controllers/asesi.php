@@ -36,14 +36,6 @@ class asesi extends CI_Controller {
 		}
 	}
 
-
-	function test_super_model()
-	{
-		// $x = $this->model_asesi->search('id_asesi','1','asesi');
-		$x = $this->model_asesi->search(NULL,NULL,'asesi');
-		$this->helper_model->printr($x);
-	}
-
 	/**
 	 * Mendapatkan semua data asesi di database dan menampilkannya di tabel
 	 */
