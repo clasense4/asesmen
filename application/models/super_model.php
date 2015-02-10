@@ -106,4 +106,19 @@ class super_model extends CI_Model
 	    $this->db->delete($tablename);
 	    return $this->db->affected_rows();
 	}
+
+	/**
+    * Prepare INSERT IGNORE SQL query
+    * @param Array $data Array in form of "Column" => "Value", ... 
+    * @return Null
+    */
+    function insert_ignore(array $data, $table) {
+        $_prepared = array();
+
+        foreach ($data as $col => $val)
+            $_prepared[$this->db->_escape_identifiers($col)] = $this->db->escape($val); 
+        $query = 'INSERT IGNORE INTO `'.$table.'` ('.implode(',',array_keys($_prepared)).') VALUES('.implode(',',array_values($_prepared)).');';
+        echo $query."<br>";
+        $this->db->query($query);
+    }
 }
