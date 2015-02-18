@@ -91,7 +91,7 @@ class asesi extends CI_Controller {
 
 			foreach ($asesi as $row)
 			{
-				$this->table->add_row(++$i, $row->id_asesi,$row->nama,$row->pendidikan,$row->jabatan,$row->unit,$row->alamat,$row->email,$row->no_telp,$row->surat_pernyataan,
+				$this->table->add_row(++$i, $row->id_asesi,$row->nama,$row->nip,$row->pendidikan,$row->jabatan,$row->unit,$row->foto,
 										anchor('asesi/update/'.$row->id_asesi,'update',array('class' => 'update')).' '.
 										anchor('asesi/delete/'.$row->id_asesi,'hapus',array('class'=> 'delete','onclick'=>"return confirm('Anda yakin akan menghapus data ini?')"))
 										);
@@ -135,13 +135,6 @@ class asesi extends CI_Controller {
 		$data['link'] 			= array('link_back' => anchor('asesi','kembali', array('class' => 'back'))
 										);
 
-		// data kegiatan untuk dropdown menu
-		// $kegiatan = $this->kegiatan_model->get_kegiatan()->result();
-		// foreach($kegiatan as $row)
-		// {
-		// 	$data['options_kegiatan'][$row->id_kegiatan] = $row->nama;
-		// }
-
 		$this->load->view('template', $data);
 	}
 	/**
@@ -162,41 +155,6 @@ class asesi extends CI_Controller {
 		$this->asesi_model->add($asesi);
 		$this->session->set_flashdata('message', 'Satu data asesi berhasil disimpan!');
 		redirect('asesi');
-		// die;
-
-		// // data kegiatan untuk dropdown menu
-		// $kegiatan = $this->kegiatan_model->get_kegiatan()->result();
-		// foreach($kegiatan as $row)
-		// {
-		// 	$data['options_kegiatan'][$row->id_kegiatan] = $row->nama;
-		// }
-
-		// // Set validation rules
-		// $this->form_validation->set_rules('nomor', 'Nomor Peserta', 'required|exact_length[4]|numeric|callback_valid_nomor');
-		// $this->form_validation->set_rules('nama', 'Nama', 'required|max_length[50]');
-		// $this->form_validation->set_rules('jabatan', 'Jabatan', 'required|max_length[50]');
-		// $this->form_validation->set_rules('unit', 'Unit Kerja', 'required|max_length[50]');
-		// $this->form_validation->set_rules('id_kegiatan', 'Kegiatan', 'required');
-
-		// if ($this->form_validation->run() == TRUE)
-		// {
-		// 	// save data
-		// 	$asesi = array('nomor' 		=> $this->input->post('nomor'),
-		// 					'nama'		=> $this->input->post('nama'),
-		// 					'jabatan'		=> $this->input->post('jabatan'),
-		// 					'unit'		=> $this->input->post('unit'),
-		// 					'id_kegiatan'	=> $this->input->post('id_kegiatan')
-		// 				);
-		// 	$this->asesi_model->add($asesi);
-
-		// 	$this->session->set_flashdata('message', 'Satu data asesi berhasil disimpan!');
-		// 	redirect('asesi/add');
-		// }
-		// else
-		// {
-		// 	$data['default']['id_kegiatan'] = $this->input->post('id_kegiatan');
-		// 	$this->load->view('template', $data);
-		// }
 	}
 
 	/**
@@ -211,39 +169,19 @@ class asesi extends CI_Controller {
 		$data['link'] 			= array('link_back' => anchor('asesi','kembali', array('class' => 'back'))
 										);
 
-		// data kegiatan untuk dropdown menu
-		// $kegiatan = $this->kegiatan_model->get_kegiatan()->result();
-		// foreach($kegiatan as $row)
-		// {
-		// 	$data['options_kegiatan'][$row->id_kegiatan] = $row->kegiatan;
-		// }
-
-		// cari data dari database
-		// $asesi = $this->asesi_model->get_asesi_by_id($asesi);
 		$asesi = $this->model_asesi->search('id_asesi',$id_asesi,'asesi');
 		$asesi = $asesi[0];
-		// buat session untuk menyimpan data primary key (nomor)
-		// $this->session->set_userdata('nomor', $asesi->nomor);
-
-		// // Data untuk mengisi field2 form
-		// $data['default']['nomor'] 		= $asesi->nomor;
-		// $data['default']['nama'] 		= $asesi->nama;
-		// $data['default']['jabatan'] 		= $asesi->jabatan;
-		// $data['default']['unit'] 		= $asesi->unit;
-		// $data['default']['id_kegiatan']	= $asesi->id_kegiatan;
 
 		// auto generate
 		$this->session->set_userdata('asesi', $asesi->id_asesi); 
 
 		$data['default']['id_asesi'] = $asesi->id_asesi;
 		$data['default']['nama'] = $asesi->nama;
+		$data['default']['nip'] = $asesi->nip;
 		$data['default']['pendidikan'] = $asesi->pendidikan;
 		$data['default']['jabatan'] = $asesi->jabatan;
 		$data['default']['unit'] = $asesi->unit;
-		$data['default']['alamat'] = $asesi->alamat;
-		$data['default']['email'] = $asesi->email;
-		$data['default']['no_telp'] = $asesi->no_telp;
-		$data['default']['surat_pernyataan'] = $asesi->surat_pernyataan;
+		$data['default']['foto'] = $asesi->foto;
 
 		$this->load->view('template', $data);
 	}
@@ -256,7 +194,7 @@ class asesi extends CI_Controller {
 		$data['title'] 			= $this->title;
 		$data['h2_title'] 		= 'Data Asesi > Update';
 		$data['main_view'] 		= 'asesi/asesi_form';
-		$data['form_action']	= site_url('asesi/update_process');
+		$data['form_action']		= site_url('asesi/update_process');
 		$data['link'] 			= array('link_back' => anchor('asesi','kembali', array('class' => 'back'))
 										);
 		$asesi = $this->input->post();
@@ -266,45 +204,7 @@ class asesi extends CI_Controller {
 		$this->model_asesi->save($asesi,'asesi');
 		$this->session->set_flashdata('message', 'Satu data asesi berhasil diupdate!');
 		redirect('asesi/update/'.$asesi['id_asesi']);
-		// die;
 
-		// data kegiatan untuk dropdown menu
-
-		// $kegiatan = $this->kegiatan_model->get_kegiatan()->result();
-		// foreach($kegiatan as $row)
-		// {
-		// 	$data['options_kegiatan'][$row->id_kegiatan] = $row->kegiatan;
-		// }
-
-		// // Set validation rules
-		// $this->form_validation->set_rules('nomor', 'Nomor Peserta', 'required|exact_length[4]|numeric|callback_valid_nomor2');
-		// $this->form_validation->set_rules('nama', 'Nama', 'required|max_length[50]');
-		// $this->form_validation->set_rules('jabatan', 'Jabatan', 'required|max_length[50]');
-		// $this->form_validation->set_rules('unit', 'Unit Kerja', 'required|max_length[50]');
-		// $this->form_validation->set_rules('id_kegiatan', 'Kegiatan', 'required');
-
-		// // jika proses validasi sukses, maka lanjut mengupdate data
-		// if ($this->form_validation->run() == TRUE)
-		// {
-		// 	// save data
-		// 	$absen = array('nomor' 		=> $this->input->post('nomor'),
-		// 					'nama'		=> $this->input->post('nama'),
-		// 					'jabatan'	=> $this->input->post('jabatan'),
-		// 					'unit'	=> $this->input->post('unit'),
-		// 					'id_kegiatan'	=> $this->input->post('id_kegiatan')
-		// 				);
-		// 	$this->asesi_model->update($this->session->userdata('nomor'), $asesi);
-
-		// 	// set pesan
-		// 	$this->session->set_flashdata('message', 'Satu data asesi berhasil diupdate!');
-
-		// 	redirect('asesi');
-		// }
-		// else
-		// {
-		// 	$data['default']['id_kegiatan'] = $this->input->post('id_kegiatan');
-		// 	$this->load->view('template', $data);
-		// }
 	}
 
 	/**
