@@ -60,7 +60,6 @@ class kegiatan extends CI_Controller {
 
 			/*Set table heading */
 			$this->table->set_empty("&nbsp;");
-			// $this->table->set_heading('No', 'Id Kegiatan', 'Nama Kegiatan', 'Instansi', 'Tanggal', 'Catatan', 'Actions');
 			$fields = array();
 			array_push($fields, 'No');
 			$table_fields = $this->db->list_fields('kegiatan');
@@ -73,7 +72,7 @@ class kegiatan extends CI_Controller {
 
 			foreach ($kegiatan as $row)
 			{
-				$this->table->add_row(++$i, $row->id_kegiatan,$row->nama,$row->instansi,$row->tanggal,$row->proyek_mulai,$row->proyek_selesai,$row->note,
+				$this->table->add_row(++$i, $row->id_kegiatan,$row->nama,$row->instansi,$row->tanggal,$row->proyek_mulai,$row->proyek_selesai,$row->note,$row->bobot_p,$row->bobot_i,$row->bobot_j,$row->bobot_k,$row->bobot_t,
 										anchor('hasil/index/','proses', array('class' => 'proses')).' '.
 										anchor('kegiatan/update/'.$row->id_kegiatan,'update',array('class' => 'update')).' '.
 										anchor('kegiatan/delete/'.$row->id_kegiatan,'hapus',array('class'=> 'delete','onclick'=>"return confirm('Anda yakin akan menghapus data ini?')"))
@@ -157,33 +156,6 @@ class kegiatan extends CI_Controller {
 		$this->session->set_flashdata('message', 'Satu data kegiatan berhasil disimpan!');
 		redirect('kegiatan');
 
-		// // Set validation rules
-		// $this->form_validation->set_rules('id_kegiatan', 'Id kegiatan', 'required|numeric|max_length[2]|callback_valid_id');
-		// $this->form_validation->set_rules('nama', 'Nama Kegiatan', 'required|max_length[50]');
-		// $this->form_validation->set_rules('instansi', 'Instansi', 'required|max_length[50]');
-		// $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|max_length[50]');
-		// $this->form_validation->set_rules('note', 'Catatan', 'required|max_length[50]');
-		// // Jika validasi sukses
-		// if ($this->form_validation->run() == TRUE)
-		// {
-		// 	// Persiapan data
-		// 	$kegiatan = array('id_kegiatan'	=> $this->input->post('id_kegiatan'),
-		// 					'nama'		=> $this->input->post('nama'),
-		// 					'instansi'		=> $this->input->post('instansi'),
-		// 					'tanggal'		=> $this->input->post('tanggal'),
-		// 					'note'		=> $this->input->post('note')
-		// 				);
-		// 	// Proses penyimpanan data di table kegiatan
-		// 	$this->kegiatan_model->add($kegiatan);
-
-		// 	$this->session->set_flashdata('message', 'Satu data kegiatan berhasil disimpan!');
-		// 	redirect('kegiatan/add');
-		// }
-		// // Jika validasi gagal
-		// else
-		// {
-		// 	$this->load->view('template', $data);
-		// }
 	}
 
 	/**
@@ -194,7 +166,7 @@ class kegiatan extends CI_Controller {
 		$data['title'] 			= $this->title;
 		$data['h2_title'] 		= 'Data Kegiatan > Update';
 		$data['main_view'] 		= 'kegiatan/kegiatan_form';
-		$data['form_action']	= site_url('kegiatan/update_process');
+		$data['form_action']		= site_url('kegiatan/update_process');
 		$data['link'] 			= array('link_back' => anchor('asesi','kembali', array('class' => 'back'))
 										);
 
@@ -202,13 +174,18 @@ class kegiatan extends CI_Controller {
 		$kegiatan = $this->model_kegiatan->search('id_kegiatan',$id_kegiatan,'kegiatan');
 		$kegiatan = $kegiatan[0];
 		$this->session->set_userdata('kegiatan', $kegiatan->id_kegiatan);
-		$data['default']['id_kegiatan'] = $kegiatan->id_kegiatan;
-		$data['default']['nama'] = $kegiatan->nama;
-		$data['default']['instansi'] = $kegiatan->instansi;
-		$data['default']['tanggal'] = $kegiatan->tanggal;
-		$data['default']['proyek_mulai'] = $kegiatan->proyek_mulai;
-		$data['default']['proyek_selesai'] = $kegiatan->proyek_selesai;
-		$data['default']['note'] = $kegiatan->note;
+		$data['default']['id_kegiatan'] 	= $kegiatan->id_kegiatan;
+		$data['default']['nama'] 		= $kegiatan->nama;
+		$data['default']['instansi'] 		= $kegiatan->instansi;
+		$data['default']['tanggal'] 		= $kegiatan->tanggal;
+		$data['default']['proyek_mulai'] 	= $kegiatan->proyek_mulai;
+		$data['default']['proyek_selesai'] 	= $kegiatan->proyek_selesai;
+		$data['default']['note'] 		= $kegiatan->note;
+		$data['default']['bobot_p'] 		= $kegiatan->bobot_p;
+		$data['default']['bobot_i'] 		= $kegiatan->bobot_i;
+		$data['default']['bobot_j'] 		= $kegiatan->bobot_j;
+		$data['default']['bobot_k'] 		= $kegiatan->bobot_k;
+		$data['default']['bobot_t'] 		= $kegiatan->bobot_t;
 		$this->load->view('template', $data);
 	}
 
@@ -230,31 +207,6 @@ class kegiatan extends CI_Controller {
 		$this->model_kegiatan->save($kegiatan,'kegiatan');
 		$this->session->set_flashdata('message', 'Satu data kegiatan berhasil diupdate!');
 		redirect('kegiatan');
-		// // Set validation rules
-		// $this->form_validation->set_rules('id_kegiatan', 'Id kegiatan', 'required|numeric|max_length[2]|callback_valid_id2');
-		// $this->form_validation->set_rules('nama', 'Nama Kegiatan', 'required|max_length[50]');
-		// $this->form_validation->set_rules('instansi', 'Instansi', 'required|max_length[50]');
-		// $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|max_length[50]');
-		// $this->form_validation->set_rules('note', 'Catatan', 'required|max_length[50]');
-
-		// if ($this->form_validation->run() == TRUE)
-		// {
-		// 	// save data
-		// 	$kegiatan = array('id_kegiatan'	=> $this->input->post('id_kegiatan'),
-		// 					'nama'		=> $this->input->post('nama'),
-		// 					'instansi'		=> $this->input->post('instansi'),
-		// 					'tanggal'		=> $this->input->post('tanggal'),
-		// 					'note'		=> $this->input->post('note')
-		// 				);
-		// 	$this->kegiatan_model->update($this->session->userdata('id_kegiatan'), $kegiatan);
-
-		// 	$this->session->set_flashdata('message', 'Satu data kegiatan berhasil diupdate!');
-		// 	redirect('kegiatan');
-		// }
-		// else
-		// {
-		// 	$this->load->view('template', $data);
-		// }
 	}
 
 	/**
