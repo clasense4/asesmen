@@ -14,14 +14,14 @@
 	<?php echo form_error('id_user', '<p class="field_error">', '</p>');?>
 	
 	<p>
-		<label for="tanggal">username user:</label>
-		<input type="text" class="form_field" name="username" size="50" value="<?php echo set_value('username', isset($default['username user']) ? $default['username user'] : ''); ?>" />
+		<label for="username">username user:</label>
+		<input type="text" class="form_field" name="username" size="50" value="<?php echo set_value('username', isset($default['username']) ? $default['username'] : ''); ?>" />
 		
 	</p>
 	<?php echo form_error('username', '<p class="field_error">', '</p>');?>	
 	
 	<p>
-		<label for="tanggal">Password:</label>
+		<label for="password">Password:</label>
 		<input type="text" class="form_field" name="password" size="50" value="<?php echo set_value('password', isset($default['password']) ? $default['password'] : ''); ?>" />
 		
 	</p>
