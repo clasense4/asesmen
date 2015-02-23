@@ -203,7 +203,7 @@ class asesi extends CI_Controller {
 		$this->helper_model->printr($asesi);
 		$this->model_asesi->save($asesi,'asesi');
 		$this->session->set_flashdata('message', 'Satu data asesi berhasil diupdate!');
-		redirect('asesi/update/'.$asesi['id_asesi']);
+		redirect('asesi');
 
 	}
 
