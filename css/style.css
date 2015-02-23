@@ -162,6 +162,7 @@ fieldset{
 ------------------------------------------------------------------------------------------------*/
 a.add, 
 a.update, 
+a.proses,
 a.delete,
 a.back,
 a.next,
@@ -176,6 +177,7 @@ a.nonaktif{
 }
 
 a.add:hover,
+a.proses:hover,
 a.update:hover,
 a.delete:hover,
 a.back:hover,
@@ -188,6 +190,9 @@ a.nonaktif:hover{
 
 a.add {
 	background:url(../images/2.png) left center no-repeat;
+}
+a.proses {
+	background:url(../images/9.png) left center no-repeat;
 }
 a.update {
 	background:url(../images/12.png) left center no-repeat;
