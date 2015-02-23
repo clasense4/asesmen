@@ -19,7 +19,7 @@ echo ! empty($flashmessage) ? '<p class="message">' . $flashmessage . '</p>': ''
 	<?php echo form_error('jabatan', '<p class="field_error">', '</p>');?>
 	<p><label for="unit">unit</label><input type="text" class="form_field" name="unit" size="30" value="<?php echo set_value('unit', isset($default['unit']) ? $default['unit'] : ''); ?>" /></p>
 	<?php echo form_error('unit', '<p class="field_error">', '</p>');?>
-	<p><label for="foto">foto</label><input type="text" class="form_field" name="foto" size="30" value="<?php echo set_value('foto', isset($default['foto']) ? $default['foto'] : ''); ?>" /></p>
+	<p><label for="foto">foto</label><input type="file" name="foto" required />
 	<?php echo form_error('foto', '<p class="field_error">', '</p>');?>
 
 	<p>
