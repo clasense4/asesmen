@@ -9,12 +9,18 @@ echo ! empty($flashmessage) ? '<p class="message">' . $flashmessage . '</p>': ''
 <form name="asesi_form" method="post" action="<?php echo $form_action; ?>">
 	<input type="hidden" class="form_field" name="id_hasil" size="30" value="<?php echo set_value('id_hasil', isset($default['id_hasil']) ? $default['id_hasil'] : ''); ?>" />
 	<?php echo form_error('id_hasil', '<p class="field_error">', '</p>');?>
+	<p><label for="nomor">nomor</label><input type="text" class="form_field" name="nomor" size="30" value="<?php echo set_value('nomor', isset($default['nomor']) ? $default['nomor'] : ''); ?>" /></p>
+	<?php echo form_error('nomor', '<p class="field_error">', '</p>');?>
 	<p>
 		<label for="kegiatan">Kegiatan :</label>
 		<?php $js = 'id="kegiatan-change" onChange=""'; ?>
         <?php echo form_dropdown('kegiatan', $options_kegiatan, isset($default['kegiatan']) ? $default['kegiatan'] : '', $js); ?>
-        <!-- <div id="add-asesi">Add Asesi</div> -->
 	</p>
+	<p>
+		<label for="id_lead_asesor">Lead asesor :</label>
+        <?php echo form_dropdown('id_lead_asesor', $options_asesor, isset($default['id_lead_asesor']) ? $default['id_lead_asesor'] : ''); ?>
+	</p>
+	<hr>
 	<p>
 		<label for="asesi">asesi :</label>
         <?php echo form_dropdown('asesi', $options_asesi, isset($default['asesi']) ? $default['asesi'] : ''); ?>
@@ -25,7 +31,6 @@ echo ! empty($flashmessage) ? '<p class="message">' . $flashmessage . '</p>': ''
 	</p>
 	<hr>
 	<div id="result"></div>
-	<div id="result2-container"></div>
 	<p>
 		<input type="submit" name="submit" id="submit" value=" Simpan " />
 	</p>
@@ -46,18 +51,7 @@ if ( ! empty($link))
     $(document).ready(function() {
 		$("#kegiatan-change").bind("change", function() {
 			var id_kegiatan = $(this).val();
-			// console.log('clear');
 			$( "#result" ).load( "<?php echo base_url(). "index.php/assign_kegiatan_skor/add/"; ?>" + id_kegiatan );
-			// $( "#result" ).empty();
-			// $( "#result2-container" ).empty();
 		});
-		// $("#add-asesi").bind("click", function() {
-		// 	var id_kegiatan = $('#kegiatan-change').val();
-		// 	console.log("execute " + id_kegiatan);
-		// 	var data = $( "#result2-container" ).load( "<?php echo base_url(). "index.php/assign_kegiatan_skor/add/"; ?>" + id_kegiatan ).html();
-		// 	console.log(data);
-		// 	$(data).appendTo("#result");
-		// 	// $( "#result2-container" ).remove();
-		// });
     });
 </script>

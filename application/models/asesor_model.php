@@ -56,17 +56,6 @@ class asesor_model extends CI_Model {
 	 */
 	function update($id_asesor, $asesor)
 	{
-		// $this->printr($id_asesor);
-		// $this->printr($asesor);
-		// die;
-        // $this->title   = $_POST['title'];
-        // $this->content = $_POST['content'];
-        // $this->date    = time();
-
-        // $this->db->update('entries', $this, array('id' => $_POST['id']));
-
-		// $this->db->where('id_asesor', $id_asesor);
-        // $this->namaasesor = $namaasesor;
 		$this->db->update($this->table, $asesor, array('id_asesor' => $id_asesor));
 	}
 	

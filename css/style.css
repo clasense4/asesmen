@@ -167,6 +167,7 @@ a.delete,
 a.back,
 a.next,
 a.excel,
+a.pdf,
 a.aktif,
 a.nonaktif{
 	font-size: 9pt;
@@ -183,6 +184,7 @@ a.delete:hover,
 a.back:hover,
 a.next:hover,
 a.excel:hover,
+a.pdf:hover,
 a.aktif:hover
 a.nonaktif:hover{
 	color:#FFCB2D;
@@ -208,6 +210,9 @@ a.back {
 }
 a.excel {
 	background:url(../images/13.png) left center no-repeat;
+}
+a.pdf {
+	background:url(../images/14.png) left center no-repeat;
 }
 a.aktif {
 	background:url(../images/8.png) left center no-repeat;

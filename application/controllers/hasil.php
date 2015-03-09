@@ -171,45 +171,7 @@ class hasil extends CI_Controller {
 		$data['form_action']	= site_url('hasil/add_process');
 		$data['link'] 			= array('link_back' => anchor('hasil/','kembali', array('class' => 'back'))
 										);
-		/**
-		 * Input ke 2 tabel,
-		 * assign_hasil & assign_skor
-		 */
-		$this->db->trans_start();
-		$assign_hasil = array(
-			'id_asesi' => $this->input->post('asesi'),
-			'id_asesor' => $this->input->post('asesor'),
-			'id_kegiatan' => $this->input->post('kegiatan'),
-		);
-		// $this->helper_model->printr($assign_hasil);
-		// $this->model_hasil->save($assign_hasil,'assign_hasil');
-		$this->model_hasil->insert_ignore($assign_hasil,'assign_hasil');
-		// die;
-		$skor = $this->input->post('skor');
-		// $this->helper_model->printr($this->input->post());die;
-		foreach ($skor as $key => $value) {
-			$data = array(
-				'id_kegiatan' => $this->input->post('kegiatan'),
-				'id_asesi' => $this->input->post('asesi'),
-				'id_skor' => $key,
-				'nilai' => $value,
-			);
-			// $this->helper_model->printr($data);
-			try {
-				// $this->model_hasil->save($data,'assign_skor');
-				$this->model_hasil->insert_ignore($data,'assign_skor');
-			} catch (Exception $e) {
-				echo "Duplicate";
-			}
 
-		}
-		$this->db->trans_complete();
-		// die;
-
-		$this->session->set_flashdata('message', 'Satu data hasil berhasil disimpan!');
-		redirect('hasil');
-
-		die;
 		// data kegiatan untuk dropdown menu
 		$asesi = $this->asesi_model->get_asesi()->result();
 		foreach($asesi as $row)

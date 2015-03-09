@@ -6,8 +6,6 @@ class assign_kegiatan_skor extends CI_Controller {
 		parent::__construct();
 		$this->load->model('helper_model', '', TRUE);
 		$this->load->model('model_skor', '', TRUE);
-		$this->load->model('asesi_model', '', TRUE);
-		$this->load->model('asesor_model', '', TRUE);
 	}
 
 	public function index()

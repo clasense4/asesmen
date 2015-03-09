@@ -11,6 +11,10 @@ class asesi extends CI_Controller {
 		$this->load->model('helper_model', '', TRUE);
 		$this->load->model('asesi_model', '', TRUE);
 		$this->load->model('kegiatan_model', '', TRUE);
+		$this->load->library('fpdf');
+		//$this->load->config('pdf_config');
+		$this->load->helper('form');
+		define('FPDF_FONTPATH',$this->config->item('fonts_path'));
 	}
 
 	/**
@@ -246,6 +250,17 @@ class asesi extends CI_Controller {
 				return TRUE;
 			}
 		}
+	}
+	
+	function asesipdf()
+	{
+		$data['asesi_list'] = $this->asesi_model->get_asesi()->result();
+		$this->load->view('asesi/asesi_list_pdf', $data);
+	}
+	
+	function asesixls(){
+		$data['asesi_list'] = $this->asesi_model->get_asesi()->result();
+		$this->load->view('asesi/asesi_list_excel', $data);
 	}
 
 }
