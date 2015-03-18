@@ -10,6 +10,9 @@ class asesor extends CI_Controller {
 		$this->load->model('model_asesor', '', TRUE);
 		$this->load->model('helper_model', '', TRUE);
 		$this->load->model('asesor_model', '', TRUE);
+		$this->load->library('fpdf');
+		$this->load->helper('form');
+		define('FPDF_FONTPATH',$this->config->item('fonts_path'));
 	}
 
 	/**
@@ -231,6 +234,17 @@ class asesor extends CI_Controller {
 				return TRUE;
 			}
 		}
+	}
+	
+	function asesorpdf()
+	{
+		$data['asesor_list'] = $this->asesor_model->get_asesor()->result();
+		$this->load->view('asesor/asesor_list_pdf', $data);
+	}
+	
+	function asesorxls(){
+		$data['asesor_list'] = $this->asesor_model->get_asesor()->result();
+		$this->load->view('asesor/asesor_list_excel', $data);
 	}
 }
 // END asesor Class

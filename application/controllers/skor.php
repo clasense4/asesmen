@@ -15,7 +15,7 @@ class skor extends CI_Controller {
 	/**
 	 * Inisialisasi variabel untuk $title(untuk id element <body>)
 	 */
-	var $title = 'skor';
+	var $title = 'kategori';
 
 	function index()
 	{
@@ -35,7 +35,7 @@ class skor extends CI_Controller {
 	function get_all()
 	{
 		$data['title'] = $this->title;
-		$data['h2_title'] = 'Data Skor';
+		$data['h2_title'] = 'Data Kategori';
 		$data['main_view'] = 'basic_table';
 
 		// Load data
@@ -68,7 +68,7 @@ class skor extends CI_Controller {
 
 			foreach ($skor as $row)
 			{
-				$this->table->add_row(++$i, $row->id_skor,$row->nama,$row->prosentasi_skor,$row->id_group_skor,
+				$this->table->add_row(++$i, $row->id_skor,$row->nama,$row->id_group_skor,
 										anchor('skor/update/'.$row->id_skor,'update',array('class' => 'update')).' '.
 										anchor('skor/delete/'.$row->id_skor,'hapus',array('class'=> 'delete','onclick'=>"return confirm('Anda yakin akan menghapus data ini?')"))
 										);

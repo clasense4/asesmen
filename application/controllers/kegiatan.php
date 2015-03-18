@@ -11,6 +11,9 @@ class kegiatan extends CI_Controller {
 		$this->load->model('model_kegiatan', '', TRUE);
 		$this->load->model('model_skor', '', TRUE);
 		$this->load->model('kegiatan_model', '', TRUE);
+		$this->load->library('fpdf');
+		$this->load->helper('form');
+		define('FPDF_FONTPATH',$this->config->item('fonts_path'));
 	}
 
 	/**
@@ -251,6 +254,17 @@ class kegiatan extends CI_Controller {
 				return TRUE;
 			}
 		}
+	}
+	
+	function kegiatanpdf()
+	{
+		$data['kegiatan_list'] = $this->kegiatan_model->get_kegiatan()->result();
+		$this->load->view('kegiatan/kegiatan_list_pdf', $data);
+	}
+	
+	function kegiatanxls(){
+		$data['kegiatan_list'] = $this->kegiatan_model->get_kegiatan()->result();
+		$this->load->view('kegiatan/kegiatan_list_excel', $data);
 	}
 }
 // END kegiatan Class
