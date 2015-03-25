@@ -54,7 +54,7 @@ class kegiatan_model extends CI_Model {
 	/**
 	 * Update data kegiatan
 	 */
-	function update($id_kegiatan, $nama, $instansi, $tanggal, $note, $bobot_p, $bobot_i, $bobot_j, $bobot_k, $bobot_t)
+	function update($id_kegiatan, $nama, $instansi, $tanggal, $note, $teamleader, $bobot_p, $bobot_i, $bobot_j, $bobot_k, $bobot_t)
 	{
 		$this->db->where('id_kegiatan', $id_kegiatan);
 		$this->db->update($this->table, $kegiatan);

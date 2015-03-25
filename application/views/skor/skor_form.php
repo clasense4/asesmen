@@ -22,8 +22,9 @@ echo ! empty($flashmessage) ? '<p class="message">' . $flashmessage . '</p>': ''
 			<option value="">Select...</option>
 			<option value="1">1</option>
 			<option value="2">2</option>
-			<option value="4">3</option>
+			<option value="3">3</option>
 			<option value="4">4</option>
+			<option value="5">5</option>
 			value="<?php echo set_value('id_group_skor', isset($default['id_group_skor']) ? $default['nama'] : ''); ?>" 
 		</select>
 	</p>

@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/asesmen/';
+$config['base_url']	= 'http://localhost/asesmen_baru/';
 $config['fonts_path']   = 'assets/font/';
 
 /*

@@ -4,6 +4,10 @@
 	
 	$flashmessage = $this->session->flashdata('message');
 	echo ! empty($flashmessage) ? '<p class="message">' . $flashmessage . '</p>': '';
+	
+	echo anchor('kegiatan/kegiatanxls/', 'Download Excel', array('class' => 'excel')).' | '.
+	anchor('kegiatan/kegiatanpdf/', 'Download Pdf', array('class' => 'pdf'));
+	echo "<br> <br>";
 		
 	echo ! empty($pagination) ? '<p id="pagination">' . $pagination . '</p>' : '';
 	echo ! empty($table) ? $table : '';

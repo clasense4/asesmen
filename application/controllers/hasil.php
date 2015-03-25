@@ -44,7 +44,7 @@ class hasil extends CI_Controller {
 	function get_all($offset = 0)
 	{
 		$data['title'] = $this->title;
-		$data['h2_title'] = 'Data Hasil Asesmen';
+		$data['h2_title'] = 'Data Penilaian';
 		$data['main_view'] = 'hasil/hasil';
 		$kegiatanSession = $this->session->userdata('kegiatan_aktif');
 

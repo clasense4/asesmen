@@ -28,6 +28,13 @@
 	<p><label for="note">note</label><input type="text" class="form_field" name="note" size="30" value="<?php echo set_value('note', isset($default['note']) ? $default['note'] : ''); ?>" /></p>
 	<?php echo form_error('note', '<p class="field_error">', '</p>');?>
 	
+	<p>
+		<label for="id_asesor">Team Leader:</label>
+        <?php echo form_dropdown('id_asesor', $options_teamleader, isset($default['id_asesor']) ? $default['id_asesor'] : ''); ?>
+	</p>
+	<?php echo form_error('id_asesor', '<p class="field_error">', '</p>');?>
+	
+	
 	<p><label for="bobot_p">bobot_p</label><input type="text" class="form_field" name="bobot_p" size="30" value="<?php echo set_value('bobot_p', isset($default['bobot_p']) ? $default['bobot_p'] : ''); ?>" /></p>
 	<?php echo form_error('note', '<p class="field_error">', '</p>');?>
 	
