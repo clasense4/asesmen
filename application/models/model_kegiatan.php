@@ -8,5 +8,4 @@ class model_kegiatan extends super_model
         parent::__construct();
     }
 
-    public $table = 'kegiatan';
 }

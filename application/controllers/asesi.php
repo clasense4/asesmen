@@ -27,11 +27,12 @@ class asesi extends CI_Controller {
 	 * Memeriksa user state, jika dalam keadaan login akan menjalankan fungsi get_all()
 	 * jika tidak akan meredirect ke halaman login
 	 */
-	function index()
+	function index($id_kegiatan)
 	{
 		if ($this->session->userdata('login') == TRUE)
 		{
-			$this->get_all();
+			$offset = 0;
+			$this->get_all($offset, $id_kegiatan);
 		}
 		else
 		{
@@ -42,11 +43,12 @@ class asesi extends CI_Controller {
 	/**
 	 * Mendapatkan semua data asesi di database dan menampilkannya di tabel
 	 */
-	function get_all($offset = 0)
+	function get_all($offset, $id_kegiatan)
 	{
 		$data['title'] = $this->title;
 		$data['h2_title'] = 'Data Asesi';
 		$data['main_view'] = 'asesi/asesi';
+		$data['id_kegiatan'] = $id_kegiatan;
 
 		// Offset
 		$uri_segment = 3;
@@ -82,19 +84,16 @@ class asesi extends CI_Controller {
 			$this->table->set_empty("&nbsp;");
 			// $this->table->set_heading('No', 'No. Peserta', 'Nama', 'Jabatan', 'Unit', 'Instansi', 'Actions');
 			$fields = array();
-			array_push($fields, 'No');
-			$table_fields = $this->db->list_fields('asesi');
-			foreach ($table_fields as $key => $value) {
-				array_push($fields,$value);
-			}
-			// array_push($fields, $this->db->list_fields('asesi'));
-			array_push($fields, 'actions');
+			array_push($fields, 'No','Nomor Peserta', 'Nama Peserta' , 'NIP', 'Pendidikan' , 'Jabatan' , 'Unit', 
+								 'Action');
 			$this->table->set_heading($fields);
-			$i = 0 + $offset;
+			$data_asesi = $this->asesi_model->getDataByKegiatan($id_kegiatan);
+			
+			$i = 0;
 
-			foreach ($asesi as $row)
+			foreach ($data_asesi as $row)
 			{
-				$this->table->add_row(++$i, $row->id_asesi,$row->nama,$row->nip,$row->pendidikan,$row->jabatan,$row->unit,$row->foto,
+				$this->table->add_row(++$i, $row->no_asesi,$row->nama,$row->nip,$row->pendidikan,$row->jabatan,$row->unit,
 										anchor('asesi/update/'.$row->id_asesi,'update',array('class' => 'update')).' '.
 										anchor('asesi/delete/'.$row->id_asesi,'hapus',array('class'=> 'delete','onclick'=>"return confirm('Anda yakin akan menghapus data ini?')"))
 										);
@@ -107,7 +106,7 @@ class asesi extends CI_Controller {
 			$data['message'] = 'Tidak ditemukan satupun data asesi!';
 		}
 
-		$data['link'] = array('link_add' => anchor('asesi/add/','tambah data', array('class' => 'add'))
+		$data['link'] = array('link_add' => anchor('asesi/add/'.$id_kegiatan,'tambah data', array('class' => 'add'))
 								);
 
 		// Load view
@@ -129,21 +128,22 @@ class asesi extends CI_Controller {
 	/**
 	 * Menampilkan form tambah asesi
 	 */
-	function add()
+	function add($id_kegiatan)
 	{
 		$data['title'] 			= $this->title;
 		$data['h2_title'] 		= 'Data Asesi > Tambah Data';
 		$data['main_view'] 		= 'asesi/asesi_form';
-		$data['form_action']	= site_url('asesi/add_process');
+		$data['form_action']	= site_url('asesi/add_process/'.$id_kegiatan);
 		$data['link'] 			= array('link_back' => anchor('asesi','kembali', array('class' => 'back'))
-										);
+										);								
+		$data['id_kegiatan'] = $id_kegiatan;
 
 		$this->load->view('template', $data);
 	}
 	/**
 	 * Proses tambah data asesi
 	 */
-	function add_process()
+	function add_process($id_kegiatan)
 	{
 		$data['title'] 			= $this->title;
 		$data['h2_title'] 		= 'Data Asesi > Tambah Data';
@@ -151,13 +151,14 @@ class asesi extends CI_Controller {
 		$data['form_action']	= site_url('asesi/add_process');
 		$data['link'] 			= array('link_back' => anchor('asesi/','kembali', array('class' => 'back'))
 										);
+		$data['id_kegiatan'] 	= $id_kegiatan;
 		$asesi = $this->input->post();
 		unset($asesi['submit']);
 		unset($asesi['id_asesi']);
 		$this->helper_model->printr($asesi);
 		$this->asesi_model->add($asesi);
 		$this->session->set_flashdata('message', 'Satu data asesi berhasil disimpan!');
-		redirect('asesi');
+		redirect('asesi/index/'.$id_kegiatan);
 	}
 
 	/**

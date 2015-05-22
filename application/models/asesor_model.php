@@ -21,6 +21,12 @@ class asesor_model extends CI_Model {
 		return $this->db->get('asesor');
 	}
 	
+	function get_leader()
+	{
+		$this->db->order_by('id_asesor');
+		return $this->db->get('asesor');
+	}
+	
 	/**
 	 * Mendapatkan data sebuah asesor
 	 */
@@ -74,6 +80,24 @@ class asesor_model extends CI_Model {
 			return FALSE;
 		}
 	}
+	
+	function getDataByKegiatan($id_kegiatan)
+    {
+        $query=$this->db->query("SELECT * FROM asesor
+									WHERE id_kegiatan = $id_kegiatan
+									ORDER BY id_asesor DESC
+								");
+        return $query->result();
+    }
+	
+	function getAllData()
+    {
+        $query=$this->db->query("SELECT * FROM asesor
+									ORDER BY id_asesor DESC
+								");
+        return $query->result();
+    }
+	
 }
 
 /* Location: ./system/application/models/asesor_model.php */

@@ -7,7 +7,7 @@ class Login extends CI_Controller {
     
     function index () {
         if ($this->session->userdata('login') == TRUE) {
-            redirect('kegiatan');
+            redirect('alur');
         }
         
         else {
@@ -25,7 +25,7 @@ class Login extends CI_Controller {
             if ($this->Login_model->check_user($username, $password) == TRUE) {
                 $data = array('username' => $username, 'login' => TRUE);
                 $this->session->set_userdata($data);
-                redirect('kegiatan');
+                redirect('alur');
             }
             
             else {

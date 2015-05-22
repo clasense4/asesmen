@@ -14,9 +14,10 @@ class asesi_model extends CI_Model {
 	/**
 	 * Mendapatkan data semua asesi
 	 */
-	function get_asesi()
+	function get_asesi($id_kegiatan)
 	{
 		$this->db->order_by('id_asesi');
+		$this -> db -> where('id_kegiatan', $id_kegiatan);
 		return $this->db->get('asesi');
 	}
 	
@@ -91,7 +92,16 @@ class asesi_model extends CI_Model {
 		{
 			return FALSE;
 		}
-	}
+	}   
+	
+	function getDataByKegiatan($id_kegiatan)
+    {
+        $query=$this->db->query("SELECT * FROM asesi
+									WHERE id_kegiatan = $id_kegiatan
+									ORDER BY no_asesi ASC
+								");
+        return $query->result();
+    }
 	
 }
 // END asesi_model Class

@@ -57,7 +57,7 @@ class kegiatan extends CI_Controller {
 		{
 			// Table
 			/*Set table template for alternating row 'zebra'*/
-			$tmpl = array( 'table_open'    => 	'<table border="0" cellpadding="0" cellspacing="0">',
+			$tmpl = array( 'table_open'    => 	'<table id="tableKegiatan" name="tableKegiatan" border="0" cellpadding="0" cellspacing="0">',
 								'row_alt_start'  => '<tr class="zebra">',
 								'row_alt_end'    => '</tr>'
 						  );
@@ -66,19 +66,22 @@ class kegiatan extends CI_Controller {
 			/*Set table heading */
 			$this->table->set_empty("&nbsp;");
 			$fields = array();
-			array_push($fields, 'No');
+			/*array_push($fields, 'No');
 			$table_fields = $this->db->list_fields('kegiatan');
 			foreach ($table_fields as $key => $value) {
 			array_push($fields,$value);
 			}
-			array_push($fields, 'actions');
+			array_push($fields, 'actions');*/
+			array_push($fields, 'No','Nama Kegiatan' , 'Instansi', 'Tanggal' , 'Proyek Mulai' , 'Proyek Selesai', 
+								'Catatan', 'Asesor', '% Potensi', '% Inti', '% Jabatan', '% Kepemimpinan', '% Teknis', 'Action');
 			$this->table->set_heading($fields);
 			$i = 0;
 
 			foreach ($kegiatan as $row)
 			{
-				$this->table->add_row(++$i, $row->id_kegiatan,$row->nama,$row->instansi,$row->tanggal,$row->proyek_mulai,$row->proyek_selesai,$row->note,$row->teamleader,$row->bobot_p,$row->bobot_i,$row->bobot_j,$row->bobot_k,$row->bobot_t,
-										anchor('hasil/index/','proses', array('class' => 'proses')).' '.
+				//$this->table->add_row(++$i, $row->id_kegiatan,$row->nama,$row->instansi,$row->tanggal,$row->proyek_mulai,$row->proyek_selesai,$row->note,$row->id_asesor,$row->bobot_p,$row->bobot_i,$row->bobot_j,$row->bobot_k,$row->bobot_t,
+						$this->table->add_row(++$i, $row->nama,$row->instansi,date('d-m-Y',strtotime($row->tanggal)),date('d-m-Y',strtotime($row->proyek_mulai)),date('d-m-Y',strtotime($row->proyek_selesai)),$row->note,$row->id_asesor,$row->bobot_p,$row->bobot_i,$row->bobot_j,$row->bobot_k,$row->bobot_t,
+										anchor('hasil/index/'.$row->id_kegiatan,'proses', array('class' => 'proses')).' '.
 										anchor('kegiatan/update/'.$row->id_kegiatan,'update',array('class' => 'update')).' '.
 										anchor('kegiatan/delete/'.$row->id_kegiatan,'hapus',array('class'=> 'delete','onclick'=>"return confirm('Anda yakin akan menghapus data ini?')"))
 										);
@@ -90,8 +93,8 @@ class kegiatan extends CI_Controller {
 			$data['message'] = 'Tidak ditemukan satupun data kegiatan!';
 		}
 
-		$data['link'] = array('link_add' => anchor('kegiatan/add/','tambah data', array('class' => 'add'))
-								);
+		//$data['link'] = array('link_add' => anchor('kegiatan/add/','tambah data', array('class' => 'add'))
+			//					);
 
 		// Load view
 		$this->load->view('template_kegiatan', $data);
@@ -102,6 +105,8 @@ class kegiatan extends CI_Controller {
 	 */
 	function delete($id_kegiatan)
 	{
+	
+		$this->model_kegiatan->delete('id_kegiatan',$id_kegiatan,'assign_kegiatan_skor');
 		$this->model_kegiatan->delete('id_kegiatan',$id_kegiatan,'kegiatan');
 		$this->session->set_flashdata('message', '1 data kegiatan berhasil dihapus');
 		redirect('kegiatan');
@@ -118,16 +123,19 @@ class kegiatan extends CI_Controller {
 		$data['form_action']		= site_url('kegiatan/add_process');
 		$data['link'] 			= array('link_back' => anchor('kegiatan','kembali', array('class' => 'back'))
 										);
+										
 		// data asesor untuk dropdown menu
-		$teamleader = $this->asesor_model->get_asesor()->result();
+		$teamleader = $this->asesor_model->get_leader()->result();
+		$data['options_teamleader'][0] = 'Pilih';
 		foreach($teamleader as $row)
 		{
-			$data['options_teamleader'][$row->id_asesor] = $row->teamleader;
+			$data['options_teamleader'][$row->id_asesor] = $row->nama;
 		}
 		
 		// get group
 		$data['group_skor'] = $this->model_skor->search(NULL,NULL,'group_skor');
-		$this->load->view('template', $data);
+		//$data['group_skor'] = $this->model_skor->getAllDataSkor()->result();
+		$this->load->view('template_kegiatan', $data);
 	}
 
 	/**
@@ -143,10 +151,11 @@ class kegiatan extends CI_Controller {
 										);
 
 		// data asesor untuk dropdown menu
-		$teamleader = $this->asesor_model->get_asesor()->result();
+		$teamleader = $this->asesor_model->get_leader()->result();
+		$data['options_teamleader'][0] = 'Pilih';
 		foreach($teamleader as $row)
 		{
-			$data['options_teamleader'][$row->id_asesor] = $row->teamleader;
+			$data['options_teamleader'][$row->id_asesor] = $row->nama;
 		}
 		
 		$kegiatan = $this->input->post();
@@ -155,26 +164,18 @@ class kegiatan extends CI_Controller {
 		unset($kegiatan['submit']);
 		unset($kegiatan['id_kegiatan']);
 		$kegiatan['id_kegiatan'] = $this->model_kegiatan->save($kegiatan,'kegiatan',1);
-		// $this->helper_model->printr($ids);
-		// die;
-		// $kegiatan['id_kegiatan'] = $this->db->insert_id();
 		foreach ($skor as $key => $value) {
-			// $this->helper_model->printr($value);
-			// $id_skor = (!empty($key)) ? $key : $value ;
 			if (!empty($value)) {
 				$id_skor = $key;
 				$var = array(
 						'id_kegiatan' => $kegiatan['id_kegiatan'],
 						'id_skor' => (int)$key
 						);
-				// $this->helper_model->printr($var);
 				$this->model_kegiatan->save($var,'assign_kegiatan_skor');
 			}
 		}
-		// die;
 		$this->session->set_flashdata('message', 'Satu data kegiatan berhasil disimpan!');
 		redirect('kegiatan');
-
 	}
 
 	/**
@@ -185,16 +186,15 @@ class kegiatan extends CI_Controller {
 		$data['title'] 			= $this->title;
 		$data['h2_title'] 		= 'Data Kegiatan > Update';
 		$data['main_view'] 		= 'kegiatan/kegiatan_form';
-		$data['form_action']		= site_url('kegiatan/update_process');
-		$data['link'] 			= array('link_back' => anchor('asesi','kembali', array('class' => 'back'))
-										);
-
-		// data asesor untuk dropdown menu
-		$teamleader = $this->asesor_model->get_asesor()->result();
+		$data['form_action']	= site_url('kegiatan/update_process');
+		$data['link'] 			= array('link_back' => anchor('kegiatan','kembali', array('class' => 'back'))
+									);
+		$teamleader = $this->asesor_model->get_leader()->result();
 		foreach($teamleader as $row)
 		{
-			$data['options_teamleader'][$row->id_asesor] = $row->teamleader;
+			$data['options_teamleader'][$row->id_asesor] = $row->nama;
 		}
+		$data['group_skor'] = $this->model_skor->search(NULL,NULL,'group_skor');
 		
 		// cari data dari database
 		$kegiatan = $this->model_kegiatan->search('id_kegiatan',$id_kegiatan,'kegiatan');
@@ -207,13 +207,13 @@ class kegiatan extends CI_Controller {
 		$data['default']['proyek_mulai'] 	= $kegiatan->proyek_mulai;
 		$data['default']['proyek_selesai'] 	= $kegiatan->proyek_selesai;
 		$data['default']['note'] 		= $kegiatan->note;
-		$data['default']['teamleader'] 		= $kegiatan->teamleader;
+		$data['default']['teamleader'] 		= $kegiatan->id_asesor;
 		$data['default']['bobot_p'] 		= $kegiatan->bobot_p;
 		$data['default']['bobot_i'] 		= $kegiatan->bobot_i;
 		$data['default']['bobot_j'] 		= $kegiatan->bobot_j;
 		$data['default']['bobot_k'] 		= $kegiatan->bobot_k;
 		$data['default']['bobot_t'] 		= $kegiatan->bobot_t;
-		$this->load->view('template', $data);
+		$this->load->view('template_kegiatan', $data);
 	}
 
 	/**

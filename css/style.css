@@ -56,11 +56,14 @@
 }
 
 #menu_tab a:hover, 
-body#absen #tab_absen a,
-body#rekap #tab_rekap a,
-body#siswa #tab_siswa a,
-body#semester #tab_semester a,
-body#kelas #tab_kelas a{
+body#alur #tab_alur a,
+body#kegiatan #tab_kegiatan a,
+body#kategori #tab_kategori a,
+body#penilaian #tab_penilaian a,
+body#laporan #tab_laporan a,
+body#asesor #tab_asesor a,
+body#asesi #tab_asesi a,
+body#user #tab_user a{
 	background: #fff url(../images/on_bg.png) repeat-x top left;
 	border-color: #727377;
 	color: #333;
@@ -92,7 +95,7 @@ table{
 table th{
 	text-transform:uppercase;
 	font-weight:bold;
-	background:#ffcc33;
+	background:#6477f9;
 }
 
 table td, table th {
@@ -101,7 +104,7 @@ table td, table th {
 }
 
 .zebra {
-	background:#F9E9A9;
+	background:#bac2fc;
 }
 
 /* =Form

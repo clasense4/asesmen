@@ -78,7 +78,7 @@ class user extends CI_Controller {
 								);
 		
 		// Load view
-		$this->load->view('template', $data);
+		$this->load->view('template_kegiatan', $data);
 	}
 		
 	/**
@@ -104,7 +104,7 @@ class user extends CI_Controller {
 		$data['link'] 			= array('link_back' => anchor('user','kembali', array('class' => 'back'))
 										);
 		
-		$this->load->view('template', $data);
+		$this->load->view('template_kegiatan', $data);
 	}
 	
 	/**
@@ -140,7 +140,7 @@ class user extends CI_Controller {
 		// Jika validasi gagal
 		else
 		{		
-			$this->load->view('template', $data);
+			$this->load->view('template_kegiatan', $data);
 		}		
 	}
 	
@@ -167,7 +167,7 @@ class user extends CI_Controller {
 		$data['default']['username']		= $user->username;
 		$data['default']['password']		= $user->password;		
 
-		$this->load->view('template', $data);
+		$this->load->view('template_kegiatan', $data);
 	}
 	
 	/**

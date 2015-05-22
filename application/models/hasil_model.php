@@ -9,7 +9,12 @@ class hasil_model extends CI_Model {
 	}
 	
 	// Inomorialisasi nama tabel hasil
-	var $table = 'hasil';
+	var $table = 'hasil_penilaian';
+	var $table_nilai_potensi = 'nilai_potensi';
+	var $table_nilai_inti = 'nilai_inti';
+	var $table_nilai_kepemimpinan = 'nilai_kepemimpinan';
+	var $table_nilai_jabatan = 'nilai_jabatan';
+	var $table_nilai_teknis = 'nilai_teknis';
 	
 	/**
 	 * Mendapatkan data semua hasil
@@ -28,9 +33,9 @@ class hasil_model extends CI_Model {
 	/**
 	 * Mendapatkan data seorang hasil dengan nomor tertentu
 	 */
-	function get_hasil_by_id($id_hasil)
+	function get_hasil_by_id($id_penilaian)
 	{
-		return $this->db->get_where($this->table, array('id_hasil' => $id_hasil))->row();
+		return $this->db->get_where($this->table, array('id_penilaian' => $id_penilaian))->row();
 	}
 	
 	/**
@@ -44,9 +49,9 @@ class hasil_model extends CI_Model {
 	/**
 	 * Menghapus data hasil tertentu
 	 */
-	function delete($id_hasil)
+	function delete($id_penilian)
 	{
-		$this->db->delete($this->table, array('id_hasil' => $id_hasil));
+		$this->db->delete($this->table, array('id_penilaian' => $id_penilian));
 	}
 	
 	/**
@@ -81,6 +86,98 @@ class hasil_model extends CI_Model {
 			return FALSE;
 		}
 	}
+	
+	function getDataByKegiatan($id_kegiatan)
+    {
+        $query=$this->db->query("SELECT h.id_penilaian, h.id_kegiatan, h.no_asesi, h.nama_asesi, h.potensi, h.uraian_potensi, h.uraian_inti, h.uraian_kepemimpinan,
+		h.uraian_jabatan, h.uraian_teknis, h.inti, h.kepemimpinan, h.jabatan, h.teknis, h.total, h.rekomendasi, h.nama_asesor, k.id_kegiatan ,k.nama
+									FROM hasil_penilaian h, kegiatan k
+									WHERE h.id_kegiatan = k.id_kegiatan AND h.id_kegiatan = $id_kegiatan
+									ORDER BY no_asesi ASC
+								");
+        return $query->result();
+    }
+	
+	function getDataNilaiPotensi($id_kegiatan)
+    {
+        $query=$this->db->query("SELECT * FROM nilai_potensi WHERE id_kegiatan = $id_kegiatan");
+        return $query->result();
+    }
+	
+	function getDataNilaiInti($id_kegiatan)
+    {
+        $query=$this->db->query("SELECT * FROM nilai_inti WHERE id_kegiatan = $id_kegiatan");
+        return $query->result();
+    }
+	
+	function getDataNilaiKep($id_kegiatan)
+    {
+        $query=$this->db->query("SELECT * FROM nilai_kepemimpinan WHERE id_kegiatan = $id_kegiatan");
+        return $query->result();
+    }
+	
+	function getDataNilaiJab($id_kegiatan)
+    {
+        $query=$this->db->query("SELECT * FROM nilai_jabatan WHERE id_kegiatan = $id_kegiatan");
+        return $query->result();
+    }
+	
+	function getDataNilaiTek($id_kegiatan)
+    {
+        $query=$this->db->query("SELECT * FROM nilai_teknis WHERE id_kegiatan = $id_kegiatan");
+        return $query->result();
+    }
+	
+	function get_hasil($id_kegiatan)
+	{
+		$this->db->order_by('id_penilaian');
+		$this->db->where('id_kegiatan', $id_kegiatan);
+		return $this->db->get('hasil_penilaian');
+	}
+	
+	/**
+	 * Menambah data nilai potensi
+	 */
+	function addPotensi($nilai_potensi)
+	{
+		$this->db->insert($this->table_nilai_potensi, $nilai_potensi);
+	}
+	
+	/**
+	 * Menambah data nilai inti
+	 */
+	function addInti($nilai_inti)
+	{
+		$this->db->insert($this->table_nilai_inti, $nilai_inti);
+	}
+	
+	/**
+	 * Menambah data nilai kepemimpinan
+	 */
+	function addKepemimpinan($nilai_kepemimpinan)
+	{
+		$this->db->insert($this->table_nilai_kepemimpinan, $nilai_kepemimpinan);
+	}
+	
+	
+	/**
+	 * Menambah data nilai jabatan
+	 */
+	function addJabatan($nilai_jabatan)
+	{
+		$this->db->insert($this->table_nilai_jabatan, $nilai_jabatan);
+	}
+	
+	
+	/**
+	 * Menambah data nilai teknis
+	 */
+	function addTeknis($nilai_teknis)
+	{
+		$this->db->insert($this->table_nilai_teknis, $nilai_teknis);
+	}
+	
+	
 	
 }
 // END hasil_model Class

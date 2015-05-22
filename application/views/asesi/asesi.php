@@ -1,6 +1,7 @@
 <?php
 
 	echo ! empty($h2_title) ? '<h2>' . $h2_title . '</h2>': '';
+	
 	echo ! empty($message) ? '<p class="message">' . $message . '</p>': '';
 	
 	$flashmessage = $this->session->flashdata('message');

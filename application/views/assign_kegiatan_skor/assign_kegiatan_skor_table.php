@@ -4,11 +4,17 @@
 		echo "<h1>".$values->nama."</h1>";
 		foreach ($skor as $key => $value) {
 			if ($values->id_group_skor == $value->id_group_skor) {
-			echo '<p><label for="skor['.$value->id_skor.']">'.$value->nama.'</label>
-			<input type="text" class="form_field" name="skor['.$value->id_skor.']" size="1" value="" /></p><br>';
+			echo '<p>
+				<label for="skor['.$value->id_skor.']">'.$value->nama.'</label>
+				<input type="text" class="form_field" name="skor['.$value->id_skor.']" size="1" value="" />
+			</p><br>';
 			}
-
+	
 		}
+			echo '<p>
+				<label for="skor['.$values->id_group_skor.']">Uraian '.$values->nama.'</label>
+				<textarea type="text" class="form_field" name="uraian" size="35" value="" />
+			</p><br>';
 		echo "<hr>";
 	}
 	// foreach ($skor as $key => $value) {

@@ -66,21 +66,20 @@ class asesor extends CI_Controller {
 
 			/*Set table heading */
 			$this->table->set_empty("&nbsp;");
-			// $this->table->set_heading('No', 'Id Asesor', 'Nama Asesor', 'Penidikan', 'Email', 'No. Telepon', 'Alamat', 'Actions');
+			$this->table->set_heading('No','Nama Asesor' , 'No Registrasi', 'Pendidikan' , 'Email' , 'No Telephone', 'Alamat', 'Surat Pernyataan', 'Action');
 			$fields = array();
-			array_push($fields, 'No');
-			$table_fields = $this->db->list_fields('asesor');
-			foreach ($table_fields as $key => $value) {
-				array_push($fields,$value);
-			}
-			// array_push($fields, $this->db->list_fields('asesi'));
-			array_push($fields, 'actions');
-			$this->table->set_heading($fields);
+			//$table_fields = $this->db->list_fields('asesor');
+			//foreach ($table_fields as $key => $value) {
+			//	array_push($fields,$value);
+			//}
+			//array_push($fields, $this->db->list_fields('asesi'));
+			//array_push($fields, 'actions');
+			//$this->table->set_heading($fields);
 			$i = 0;
 
 			foreach ($asesor as $row)
 			{
-				$this->table->add_row(++$i, $row->id_asesor,$row->nama,$row->noreg,$row->pendidikan,$row->email,$row->no_telp,$row->alamat,$row->surat_pernyataan,
+				$this->table->add_row(++$i, $row->nama,$row->noreg,$row->pendidikan,$row->email,$row->no_telp,$row->alamat,$row->surat_pernyataan,
 										anchor('asesor/update/'.$row->id_asesor,'update',array('class' => 'update')).' '.
 										anchor('asesor/delete/'.$row->id_asesor,'hapus',array('class'=> 'delete','onclick'=>"return confirm('Anda yakin akan menghapus data ini?')"))
 										);
