@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en" moznomarginboxes mozdisallowselectionprint>
+<head>
+    <meta charset="UTF-8" />
+    <title>Laporan Individu</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        @media screen {
+            body
+            {
+                background-color: #ddd;
+
+            }
+
+            .box
+            {
+                position: relative;
+                /* width: 500px;*/
+                width: 18cm;
+                /*height: 27.5cm; */
+                padding: 50px;
+                margin: 0 auto;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                background-color: #fff;
+                -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+                -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+            }
+
+            .box:before, .box:after
+            {
+                position: absolute;
+                width: 30%;
+                height: 10px;
+                content: ' ';
+                left: 8px;
+                bottom: 12px;
+                background: transparent;
+                -webkit-transform: skew(-5deg) rotate(-5deg);
+                -moz-transform: skew(-5deg) rotate(-5deg);
+                -ms-transform: skew(-5deg) rotate(-5deg);
+                -o-transform: skew(-5deg) rotate(-5deg);
+                transform: skew(-5deg) rotate(-5deg);
+                -webkit-box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+                -moz-box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+                z-index: -1;
+            }
+
+            .box:after
+            {
+                left: auto;
+                right: 8px;
+                -webkit-transform: skew(5deg) rotate(5deg);
+                -moz-transform: skew(5deg) rotate(5deg);
+                -ms-transform: skew(5deg) rotate(5deg);
+                -o-transform: skew(5deg) rotate(5deg);
+                transform: skew(5deg) rotate(5deg);
+            }
+
+        }
+
+        @media print {
+
+            @page
+            {
+                /*margin:0;*/
+            }
+
+            body {
+                /*padding: 20px;*/
+            }
+
+        }
+
+        @media screen, print {
+
+            body {
+
+                font-family: Open Sans, arial, helvetica, freesans, sans-serif;
+                font-size: 100%;
+                color: #333;
+            }
+
+            h1, h2
+            {
+                font-family: Open Sans, arial;
+                color: #777;
+                font-size: 1.6em;
+                font-weight: normal;
+                margin: 0;
+            }
+
+            h2
+            {
+                font-size: 1em;
+                margin-top: 0;
+            }
+
+            p
+            {
+                color: #777;
+                font-weight: thin;
+                font-size:12px;
+            }
+            /*h1 { text-shadow: -1px -1px 1px #fff, 1px 1px 1px #333; color: #888; opacity: 2; font: 25px 'Raleway'; }*/
+
+    /*table a:link {
+        color: #666;
+        font-weight: bold;
+        text-decoration:none;
+    }
+    table a:visited {
+        color: #999999;
+        font-weight:bold;
+        text-decoration:none;
+    }
+    table a:active,
+    table a:hover {
+        color: #bd5a35;
+        text-decoration:underline;
+    }*/
+
+    table, th, td{
+/*          border-width: 1;
+border-style: solid;*/
+margin: 0;
+padding: 0 5px 0 5px;
+border-collapse: collapse;
+border-spacing: 0;
+vertical-align: center;
+/*text-align: center;*/
+/*font-size:small;*/
+clear: both;
+}
+
+tr.border, table.border, th.border, td.border{
+    border-width: 1px;
+    border-style: solid;
+}
+tr.border td{
+    border-width: 1px;
+    border-style: solid;
+}
+
+td {
+    padding: 2px;
+    font-size: smaller;
+}
+
+/*    table {
+    }
+    table.data {
+        border-top: 1px solid #000000;
+        border-left: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+    }
+    th {
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        /*border-top: 1px solid #000000;* /
+    }
+
+    td {
+        vertical-align: top;
+        padding-left: 4px;
+    }
+    td.data {
+        margin: 0px 0px 0px 0px;
+        background-color:#FFFFFF;
+        border-right: 1px solid #000000;
+        padding-right: 4px;
+    }
+    td.datarow {
+        margin: 0px 0px 0px 0px;
+        background-color:#FFFFFF;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        padding-right: 4px;
+    }
+    td.sumdata {
+        margin: 0px 0px 0px 0px;
+        background-color:#FFFFFF;
+        border-right: 1px solid #000000;
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        padding-right: 4px;
+        font-weight: bold;
+    }
+    td.foot {
+        border-top: 1px solid #000000;
+        border-right: 1px solid #000000;
+        padding-right:4px;
+    }
+    td.signbox {
+        margin: 0px 0px 0px 0px;
+        margin-top: 10px;
+        background-color:#FFFFFF;
+        border-right: 1px solid #000000;
+        border-top: 1px solid #000000;
+        padding-right: 4px;
+    }
+
+    td.pagehead {
+        padding: 4px;
+    }
+
+    td.bcell {
+        border-top: black thin solid;
+        border-right: black thin solid;
+        border-bottom: black thin solid;
+        border-left: black thin solid;
+        line-height: 2;
+    }
+    */
+
+}
+
+</style>
+
+</head>
+<body>
+<div class="box">
+<p>
+    <strong>Laporan Individu</strong>
+</p>
+<p align="center">
+    <strong>HASIL PENILAIAN POTENSI DAN KOMPETENSI</strong>
+</p>
+<p align="center">
+    <strong></strong>
+</p>
+<p>
+    <strong>No. : XX</strong>
+</p>
+<p>
+    <strong>Nama </strong>
+    <strong>Asesi </strong>
+    <strong> : XX</strong>
+</p>
+<p>
+    <strong>Nama Jabatan Fungsional Umum : XX</strong>
+</p>
+<p>
+    <strong>Unit Kerja :</strong>
+    <strong> </strong>
+    <strong>XX</strong>
+    <strong></strong>
+</p>
+<p>
+    <strong>Tanggal </strong>
+    <strong>Penilaian</strong>
+    <strong><em> </em></strong>
+    <strong> : XX</strong>
+</p>
+<p>
+    <strong>A. </strong>
+    <strong>Aspek</strong>
+    <strong> </strong>
+    <strong>Potensi</strong>
+</p>
+<div align="center">
+    <table border="1" cellspacing="0" cellpadding="0" width="100%">
+        <tbody>
+            <tr>
+                <td width="234" rowspan="3" valign="top">
+                    <p align="center">
+                        <strong>Aspek yang Diukur</strong>
+                    </p>
+                </td>
+                <td width="222" colspan="5" valign="top">
+                    <p align="center">
+                        <strong>Skor Penilaian</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="44" valign="top">
+                    <p align="center">
+                        <strong>1-20</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>21-40</strong>
+                    </p>
+                </td>
+                <td width="46" valign="top">
+                    <p align="center">
+                        <strong>41-60</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>61-80</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>81-100</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="44" valign="top">
+                    <p align="center">
+                        <strong>Rendah</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>Kurang</strong>
+                    </p>
+                </td>
+                <td width="46" valign="top">
+                    <p align="center">
+                        <strong>Cukup</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>Baik</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>Istimewa</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="234" valign="top">
+                    <p>
+                        1. Kecerdasan
+                    </p>
+                </td>
+                <td width="44" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="46" valign="top">
+                    <p align="center">
+                        42
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="234" valign="top">
+                    <p>
+                        2. Daya analisis sintesis
+                    </p>
+                </td>
+                <td width="44" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="46" valign="top">
+                    <p align="center">
+                        42
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="234" valign="top">
+                    <p>
+                        3. Hasrat berprestasi
+                    </p>
+                </td>
+                <td width="44" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="46" valign="top">
+                    <p align="center">
+                        60
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="234" valign="top">
+                    <p>
+                        4. Kesediaan untuk menuntaskan tugas
+                    </p>
+                </td>
+                <td width="44" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="46" valign="top">
+                    <p align="center">
+                        60
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="234" valign="top">
+                    <p>
+                        5. Kepatuhan
+                    </p>
+                </td>
+                <td width="44" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="46" valign="top">
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        65
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="234" valign="top">
+                    <p>
+                        6. Kendali emosi
+                    </p>
+                </td>
+                <td width="44" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="46" valign="top">
+                    <p align="center">
+                        55
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="234" valign="top">
+                    <p>
+                        7. Minat sosial
+                    </p>
+                </td>
+                <td width="44" valign="top">
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        40
+                    </p>
+                </td>
+                <td width="46" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="234" valign="top">
+                    <p>
+                        8. Kepemimpinan
+                    </p>
+                </td>
+                <td width="44" valign="top">
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        40
+                    </p>
+                </td>
+                <td width="46" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="456" colspan="6" valign="top">
+                    <p>
+                        <strong>Skor</strong>
+                        <strong> potensi</strong>
+                        <strong> = 20,2</strong>
+                        <strong></strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="456" colspan="6" valign="top">
+                    <p>
+                        <strong>Uraian Potensi</strong>
+                    </p>
+                    <p>
+                        Sdr. A memiliki potensi kecerdasan yang tergolong cukup, begitu pula daya analisisnya
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    <strong>B. </strong>
+    <strong>Aspek</strong>
+    <strong> </strong>
+    <strong>Kompetensi</strong>
+    <strong> </strong>
+    <strong></strong>
+</p>
+<div align="center">
+    <table border="1" cellspacing="0" cellpadding="0" width="100%">
+        <tbody>
+            <tr>
+                <td width="230" colspan="2" rowspan="3" valign="top">
+                    <p align="center">
+                        <strong>Aspek yang Diukur</strong>
+                    </p>
+                </td>
+                <td width="228" colspan="5" valign="top">
+                    <p align="center">
+                        <strong>Skor Penilaian</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>1-20</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>21-40</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>41-60</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>61-80</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>81-100</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>Rendah</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>Kurang</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>Cukup</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>Baik</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>Istimewa</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="458" colspan="7" valign="top">
+                    <p>
+                        <strong>Kompetensi Inti</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        1.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Integritas
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        50
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        2.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Dorongan Berprestasi
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        65
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        3.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Pelayanan kepada Pemangku Kepentingan
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        55
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        4.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Kerjasama
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        60
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="458" colspan="7" valign="top">
+                    <p>
+                        <strong>Skor kompetensi Inti = 11,2</strong>
+                        <strong></strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="458" colspan="7" valign="top">
+                    <p>
+                        <strong>Uraian kompetensi Inti</strong>
+                    </p>
+                    <p>
+                        Selama ini Sdr. A merasakan bahwa tugasnya tidak menuntut analisis yang mendalam
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="458" colspan="7" valign="top">
+                    <p>
+                        <strong>Kompetensi Kepemimpinan</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        1.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Kepemimpinan
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        50
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        2.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Pengembangan Kelompok
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        65
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        3.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Pemimpin Perubahan
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        55
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        4.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Pemahaman strategis
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        60
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="458" colspan="7" valign="top">
+                    <p>
+                        <strong>Skor kompetensi Kepemimpinan = 11,2</strong>
+                        <strong></strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="458" colspan="7" valign="top">
+                    <p>
+                        <strong>Uraian kompetensi Kepemimpinan</strong>
+                    </p>
+                    <p>
+                        Selama ini Sdr. A merasakan bahwa tugasnya tidak menuntut analisis yang mendalam
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="458" colspan="7" valign="top">
+                    <p>
+                        <strong>Kompetensi Jabatan</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        1.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Peduli terhadap keteraturan dan kualitas
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        50
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        2.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Pemikiran Analitis
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        65
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        3.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Pemikiran Konseptual
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        55
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="30" valign="top">
+                    <p>
+                        4.
+                    </p>
+                </td>
+                <td width="200" valign="top">
+                    <p>
+                        Inisiatif
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        60
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="458" colspan="7" valign="top">
+                    <p>
+                        <strong>Skor kompetensi Jabatan = 11,2</strong>
+                        <strong></strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="458" colspan="7" valign="top">
+                    <p>
+                        <strong>Uraian kompetensi Jabatan</strong>
+                    </p>
+                    <p>
+                        Selama ini Sdr. A merasakan bahwa tugasnya tidak menuntut analisis yang mendalam
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    <strong>C. </strong>
+    <strong>Aspek</strong>
+    <strong> </strong>
+    <strong>Kompetensi</strong>
+    <strong> </strong>
+    <strong>Teknis</strong>
+</p>
+<div align="center">
+    <table border="1" cellspacing="0" cellpadding="0" width="100%">
+        <tbody>
+            <tr>
+                <td width="233" rowspan="3" valign="top">
+                    <p align="center">
+                        <strong>Uraian kompetensi teknis</strong>
+                    </p>
+                </td>
+                <td width="228" colspan="5" valign="top">
+                    <p align="center">
+                        <strong>Skor Penilaian</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>1-20</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>21-40</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>41-60</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>61-80</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>81-100</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>Rendah</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>Kurang</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>Cukup</strong>
+                    </p>
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        <strong>Baik</strong>
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                    <p align="center">
+                        <strong>Istimewa</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="233" valign="top">
+                    <p>
+                        Kegiatan yang dilakukan adalah mencatat realisasi
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                </td>
+                <td width="48" valign="top">
+                </td>
+                <td width="42" valign="top">
+                    <p align="center">
+                        65
+                    </p>
+                </td>
+                <td width="48" valign="top">
+                </td>
+            </tr>
+            <tr>
+                <td width="461" colspan="6" valign="top">
+                    <p>
+                        <strong>Skor kompetensi teknis = 26</strong>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width="461" colspan="6" valign="top">
+                    <p>
+                        <strong>TOTAL SKOR = 57,4</strong>
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    <strong>D. </strong>
+    <strong>Simpulan</strong>
+    <strong> </strong>
+    <strong>dan Saran</strong>
+</p>
+<table border="1" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td width="463" valign="top">
+                <p>
+                    <strong>Simpulan</strong>
+                </p>
+                <p>
+                    Sdr. A memiliki kecerdasan yang tergolong cukup saja. Oleh karena itu Sdr. A <u>masih dapat memenuhi persyaratan</u>
+                </p>
+                <p>
+                    <strong>Rekomendasi</strong>
+                </p>
+                <table border="1" cellspacing="0" cellpadding="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td width="21" valign="top">
+                            </td>
+                            <td width="36" valign="top">
+                                <p>
+                                    Skor
+                                </p>
+                            </td>
+                            <td width="27" valign="top">
+                                <p align="right">
+                                    60
+                                </p>
+                            </td>
+                            <td width="20" valign="top">
+                                <p>
+                                    -
+                                </p>
+                            </td>
+                            <td width="42" valign="top">
+                                <p>
+                                    100
+                                </p>
+                            </td>
+                            <td width="304" valign="top">
+                                <p>
+                                    Telah Memenuhi Persyaratan
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="21" valign="top">
+                                <p>
+                                    √
+                                </p>
+                            </td>
+                            <td width="36" valign="top">
+                                <p>
+                                    Skor
+                                </p>
+                            </td>
+                            <td width="27" valign="top">
+                                <p>
+                                    50
+                                </p>
+                            </td>
+                            <td width="20" valign="top">
+                                <p>
+                                    -
+                                </p>
+                            </td>
+                            <td width="42" valign="top">
+                                <p>
+                                    59.99
+                                </p>
+                            </td>
+                            <td width="304" valign="top">
+                                <p>
+                                    Masih Dapat Memenuhi Persyaratan
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="21" valign="top">
+                            </td>
+                            <td width="36" valign="top">
+                                <p>
+                                    Skor
+                                </p>
+                            </td>
+                            <td width="27" valign="top">
+                                <p>
+                                    1
+                                </p>
+                            </td>
+                            <td width="20" valign="top">
+                                <p>
+                                    -
+                                </p>
+                            </td>
+                            <td width="42" valign="top">
+                                <p>
+                                    49.99
+                                </p>
+                            </td>
+                            <td width="304" valign="top">
+                                <p>
+                                    Untuk saat ini, Belum Memenuhi Persyaratan.
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    <strong>Saran</strong>
+                    <strong> </strong>
+                </p>
+                <p>
+                    Mengingat sikap kerjanya positif dan inisiatifnya cukup besar, Sdr. A pada dasarnya masih dapat dikembangkan.
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Jakarta, 20 Juni 2014
+</p>
+<p>
+    Psikolog,
+</p>
+<p>
+    (Dr. Rostiana, M.Si., Psikolog) <em> </em>
+</p>
+</div>
+</body>
+</html>
